@@ -3,7 +3,11 @@
 #include <iostream>
 #include "../utils/RandIterator.hpp"
 #include "../utils/Utils.hpp"
+<<<<<<< HEAD
 #include "../utils/ReverseIterator.hpp"
+=======
+#include "../utils/Colors.hpp"
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 
 namespace ft{
 
@@ -16,6 +20,7 @@ namespace ft{
         typedef typename allocator_type::const_reference	const_reference;
         typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer      const_pointer;
+<<<<<<< HEAD
 		typedef	RandIterator<value_type>					iterator;
 		typedef	RandIterator<const value_type>				const_iterator;
 		typedef	ReverseIterator<iterator>					reverse_iterator;
@@ -26,6 +31,17 @@ namespace ft{
 		vector(const vector& ins) : _alloc(ins._alloc), _start(NULL), _end(NULL), _end_capacity(NULL) { *this = ins; }
 		explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL) {};
         explicit vector(size_t n, const T& val = T(), const Alloc& alloc = allocator_type()) : _alloc(alloc) {
+=======
+		typedef	 RandIterator<value_type>					iterator;
+		typedef	 RandIterator<const value_type>				const_iterator;
+		typedef	 ReverseIterator<iterator>					reverse_iterator;
+		typedef	 ReverseIterator<const_iterator>			const_reverse_iterator;
+		typedef size_t 										size_type;
+		//constructors
+		vector (const vector& ins) : _alloc(ins._alloc), _start(NULL), _end(NULL), _end_capacity(NULL) { *this = ins; }
+		explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL) {};
+        explicit vector (size_t n, const T& val = T(), const Alloc& alloc = allocator_type()) : _alloc(alloc) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			_start = _alloc.allocate(n);
 			_end = _start;
 			_end_capacity = _start + n;
@@ -35,7 +51,11 @@ namespace ft{
 			}
 		};
 		template <class InputIterator>
+<<<<<<< HEAD
 		vector(InputIterator first, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
+=======
+		vector (InputIterator first, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			size_type len = static_cast<size_type>(last - first);
 			_start = _alloc.allocate(len);
 			_end = _start;
@@ -56,9 +76,15 @@ namespace ft{
 		const_reverse_iterator		rbegin() const { return (reverse_iterator(this->end())); };
 		const_reverse_iterator		rend() const { return (reverse_iterator(this->begin())); };
 		//capacity
+<<<<<<< HEAD
 		size_type					max_size(void) const { return _alloc.max_size(); };
 		size_type					size(void) const { return _end - _start; };
 		void						resize(size_type n, value_type val = value_type()){
+=======
+		size_type		max_size(void) const { return _alloc.max_size(); };
+		size_type		size(void) const { return _end - _start; };
+		void			resize(size_type n, value_type val = value_type()){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (n > capacity())
 				reserve(n);
 			if (n < size()){
@@ -75,9 +101,15 @@ namespace ft{
 				}
 			}
 		};
+<<<<<<< HEAD
 		size_type					capacity(void) const { return _end_capacity - _start; };
 		bool						empty(void) const { return (size() == 0 ? true : false); };
 		void						reserve (size_type n){
+=======
+		size_type		capacity(void) const { return _end_capacity - _start; };
+		bool			empty(void) const { return (size() == 0 ? true : false); };
+		void			reserve (size_type n){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (n > this->max_size())
 				throw (std::length_error("vector::reserve"));
 			else if (n > capacity()){
@@ -99,6 +131,7 @@ namespace ft{
 			}
 		};
 		//element_access
+<<<<<<< HEAD
 		reference					operator[] (size_type n){
 			return (*(_start + n));
 		};
@@ -106,21 +139,43 @@ namespace ft{
 			return (*(_start + n));
 		};
 		reference					at(size_type n){
+=======
+		reference		operator[] (size_type n){
+			return (*(_start + n));
+		};
+		const_reference	operator[] (size_type n) const{
+			return (*(_start + n));
+		};
+		reference		at(size_type n){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (n >= size())
 				throw std::out_of_range("vector");
 			return ((*this)[n]);
 		};
+<<<<<<< HEAD
 		const_reference				at(size_type n) const{
+=======
+		const_reference	at(size_type n) const{
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (n >= size())
 				throw std::out_of_range("vector");
 			return ((*this)[n]);
 		};
+<<<<<<< HEAD
 		reference					front(void) { return (*_start); };
 		const_reference				front(void) const { return (*_start); };
 		reference					back() { return (*(_end - 1)); };
 		const_reference 			back() const { return (*(_end - 1)); };
 		//modifiers
 		void 						assign(size_type n, const value_type& val) {
+=======
+		reference		front(void) { return (*_start); };
+		const_reference front(void) const { return (*_start); };
+		reference		back() { return (*(_end - 1)); };
+		const_reference back() const { return (*(_end - 1)); };
+		//modifiers
+		void 			assign(size_type n, const value_type& val) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			this->clear();
 			if (n > capacity())
 				reserve(n);
@@ -130,7 +185,11 @@ namespace ft{
 			}
 		};
 		template <class InputIterator>
+<<<<<<< HEAD
 		void						assign(InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+=======
+		void			assign(InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			size_type	len = last - first;
 			this->clear();
 			if (len > capacity())
@@ -143,7 +202,11 @@ namespace ft{
 			}
 			_end = &(*it);
 		};
+<<<<<<< HEAD
 		void						push_back(const value_type& val) {
+=======
+		void			push_back(const value_type& val) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (size() + 1 <= capacity()){
 				_alloc.construct(_start + size(), val);
 				_end++;
@@ -154,13 +217,21 @@ namespace ft{
 				_end++;
 			}
 		};
+<<<<<<< HEAD
 		void						pop_back(){
+=======
+		void			pop_back(){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (this->size() != 0){
 				_alloc.destroy(_end - 1);
 				_end--;
 			}
 		};
+<<<<<<< HEAD
 		iterator					insert(iterator position, const value_type& val){
+=======
+		iterator		insert(iterator position, const value_type& val){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			size_type	posi = position - begin();
 			if (size() + 1 <= capacity()) {
 				_end += 1;
@@ -174,7 +245,11 @@ namespace ft{
 			}
 			return (begin() + posi);
 		};
+<<<<<<< HEAD
 		void						insert (iterator position, size_type n, const value_type& val){
+=======
+		void			insert (iterator position, size_type n, const value_type& val){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			size_type	posi = position - begin();
 			if (size() + n <= capacity()) {
 				_end += n;
@@ -192,8 +267,13 @@ namespace ft{
 			}
 		};
 		template <class InputIterator>
+<<<<<<< HEAD
 		void						insert (iterator position, InputIterator first, InputIterator last,
 										typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0) {
+=======
+		void			insert (iterator position, InputIterator first, InputIterator last,
+								typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			size_type	posi = position - begin();
 			size_type	len = last - first;
 			if (size() + len <= capacity()) {
@@ -213,14 +293,22 @@ namespace ft{
 				this->insert(begin() + posi, first, last);
 			}
 		};
+<<<<<<< HEAD
 		void 						clear(void) {
+=======
+		void 			clear(void) {
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			size_type size = this->size();
 			for (size_type i = 0;  i < size; i++){
 				_end--;
 				_alloc.destroy(_end);
 			}
 		};
+<<<<<<< HEAD
 		iterator					erase(iterator position){
+=======
+		iterator		erase(iterator position){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (position + 1 == end()){
 				this->pop_back();
 				return (end());
@@ -232,6 +320,7 @@ namespace ft{
 			_end--;
 			return (position);
 		};
+<<<<<<< HEAD
 		iterator erase (iterator first, iterator last){
 			iterator save(first);
 			iterator buf(first);
@@ -246,6 +335,16 @@ namespace ft{
 			return (save);
 		}
 		void						swap(vector& x){
+=======
+		iterator		erase(iterator first, iterator last){
+			for (iterator buf(first); buf != end(); buf++){
+				_alloc.construct(&(*buf), *(buf + (last - first)));
+			}
+			_end -= last - first;
+			return (first);
+		};
+		void			swap(vector& x){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (this == &x)
 				return ;
 			pointer buf_st = x._start;
@@ -264,13 +363,21 @@ namespace ft{
 			this->_alloc = buf_alloc;
 		};
 		//utils
+<<<<<<< HEAD
 		vector&						operator=(const vector& ins){
+=======
+		vector&			operator=(const vector& ins){
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 			if (this == &ins)
 				return (*this);
 			this->assign(ins.begin(), ins.end());
 			return (*this);
 		};
+<<<<<<< HEAD
 		allocator_type				get_allocator() const { return _alloc; };
+=======
+		allocator_type	get_allocator() const { return _alloc; };
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 		~vector() {
 			clear();
 			_alloc.deallocate(_start, capacity());

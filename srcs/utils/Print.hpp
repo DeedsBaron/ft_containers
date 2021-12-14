@@ -1,11 +1,15 @@
 #pragma once
 #include "../containers/Vector.hpp"
 #include "../containers/Stack.hpp"
+<<<<<<< HEAD
 #include "../containers/Map.hpp"
 #include "../containers/Set.hpp"
 #include <vector>
 #include <map>
 #include <set>
+=======
+#include <vector>
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 
 template < typename T>
 void 	print_cap(std::vector<T>& a1){
@@ -70,6 +74,7 @@ void	print_info(ft::stack<T>& a1){
 	print_cap(a1);
 	std::cout << PURPLE << "::::::::::::::::::::::::::::::::::::\n" << RES;
 }
+<<<<<<< HEAD
 
 template <typename Key, typename T>
 void 	print_info(std::map<Key, T>& map1){
@@ -98,3 +103,5 @@ void 	print_info(ft::set<Key>& map1){
 		std::cout << "Val = " << *it << std::endl;
 	}
 }
+=======
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))

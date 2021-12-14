@@ -2,7 +2,10 @@
 #include "../utils/Colors.hpp"
 #include "../utils/Print.hpp"
 #include <vector>
+<<<<<<< HEAD
 #include <iomanip>
+=======
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 
 int main() {
 	std::cout << GREEN << "-------------=STDVECTOR=-------------\n" << RES;
@@ -392,6 +395,7 @@ int main() {
 		std::cout << CYAN << "bar\n" << RES;
 		print_info(bar);
 	}
+<<<<<<< HEAD
 	std::cout << YELLOW << "::::::::::::::TIME_TESTS::::::::::::\n" << RES;
 	{
 		time_t 	start,end;
@@ -415,5 +419,8 @@ int main() {
 		time(&end);
 		std::cout << "Time taken by erase : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
 	}
+=======
+
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 	return (0);
 }

@@ -1,8 +1,25 @@
 #include "../containers/Vector.hpp"
 #include "../utils/Colors.hpp"
+<<<<<<< HEAD
 #include "../utils/Print.hpp"
 #include <time.h>
 #include <iomanip>
+=======
+#include "../utils/Utils.hpp"
+#include "../utils/Print.hpp"
+#include <iostream>
+#include <sys/time.h>
+
+//typedef unsigned long long timestamp_t;
+//
+//static timestamp_t
+//get_timestamp ()
+//{
+//	struct timeval now;
+//	gettimeofday (&now, NULL);
+//	return  now.tv_usec + (timestamp_t)now.tv_sec * 1000000;
+//}
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 
 int main() {
 	std::cout << GREEN << "-------------=MYVECTOR=-------------\n" << RES;
@@ -395,6 +412,7 @@ int main() {
 		std::cout << CYAN << "bar\n" << RES;
 		print_info(bar);
 	}
+<<<<<<< HEAD
 	std::cout << YELLOW << "::::::::::::::TIME_TESTS::::::::::::\n" << RES;
 	{
 		time_t 	start,end;
@@ -418,5 +436,8 @@ int main() {
 		time(&end);
 		std::cout << "Time taken by erase : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
 	}
+=======
+
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 	return (0);
 }

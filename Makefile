@@ -11,7 +11,11 @@ DIR_TESTS = ./srcs/tests
 DIR_OUT = ./srcs/out
 
 SOURCES	= main.cpp
+<<<<<<< HEAD
 TESTS_SOURCES = myvector.cpp stdvector.cpp mystack.cpp stdstack.cpp mymap.cpp stdmap.cpp myset.cpp stdset.cpp
+=======
+TESTS_SOURCES = myvector.cpp stdvector.cpp mystack.cpp stdstack.cpp
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 OBJS = $(addprefix $(DIR_O)/,${SOURCES:.cpp=.o})
@@ -33,6 +37,7 @@ $(DIR_O)/%.o: $(DIR_TESTS)/%.cpp
 $(DIR_O)/%.o: $(DIR_S)/%.cpp
 	$(CC) $(FLAGS) -c $< -o $@ -g
 
+<<<<<<< HEAD
 $(NAME): $(TEST_OBJS) vec stack map set
 
 test: $(OBJS)
@@ -57,6 +62,14 @@ map: dir
 	open -a Terminal.app $(DIR_BIN)/mymap
 
 vec: dir
+=======
+$(NAME): $(OBJS)
+	@echo "\033[0;35m"
+	$(CC) $(FLAGS) $^ -o $@
+	chmod 777 $(NAME)
+
+vec: dir $(TEST_OBJS)
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 	$(CC) $(FLAGS) $(DIR_O)/myvector.o -o $(DIR_BIN)/myvector
 	$(CC) $(FLAGS) $(DIR_O)/stdvector.o -o $(DIR_BIN)/stdvector
 	./$(DIR_BIN)/myvector > $(DIR_OUT)/myvector.out
@@ -64,7 +77,11 @@ vec: dir
 	open -a Terminal.app $(DIR_BIN)/stdvector
 	open -a Terminal.app $(DIR_BIN)/myvector
 
+<<<<<<< HEAD
 stack: dir
+=======
+stack: dir $(TEST_OBJS)
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 	$(CC) $(FLAGS) $(DIR_O)/mystack.o -o $(DIR_BIN)/mystack
 	$(CC) $(FLAGS) $(DIR_O)/stdstack.o -o $(DIR_BIN)/stdstack
 	./$(DIR_BIN)/mystack > $(DIR_OUT)/mystack.out
@@ -72,14 +89,21 @@ stack: dir
 	open -a Terminal.app $(DIR_BIN)/stdstack
 	open -a Terminal.app $(DIR_BIN)/mystack
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 diff_stack:
 	diff $(DIR_OUT)/mystack.out $(DIR_OUT)/stdstack.out
 diff_vec:
 	diff $(DIR_OUT)/myvector.out $(DIR_OUT)/stdvector.out
+<<<<<<< HEAD
 diff_map:
 	diff $(DIR_OUT)/mymap.out $(DIR_OUT)/stdmap.out
 diff_set:
 	diff $(DIR_OUT)/myset.out $(DIR_OUT)/stdset.out
+=======
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))
 
 clean:
 	@echo "\033[0;33m"
@@ -96,5 +120,9 @@ re: fclean all
 
 .PHONY: all lib clean fclean re
 
+<<<<<<< HEAD
 -include $(TEST_OBJS:.o=.d)
 -include $(OBJS:.o=.d)
+=======
+-include $(TEST_OBJS:.o=.d)
+>>>>>>> 9f4e9a7... stack n vector done, welcome 2 red-black hell))))

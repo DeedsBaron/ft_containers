@@ -25,7 +25,7 @@ struct Trunk
 
 void showTrunks(Trunk *p)
 {
-	if (p == nullptr) {
+	if (p == NULL) {
 		return;
 	}
 
@@ -68,6 +68,55 @@ public:
 		else
 			node->color = BLACK_N;
 	}
+
+	int		height(Node* node) {
+	int		h = 0;
+	if (node != NULL) {
+		int l_height = height(node->left);
+		int r_height = height(node->right);
+		int max_height = std::max(l_height, r_height);
+		h = max_height + 1;
+	}
+	return h;
+	}
+
+	int		b_factor(Node* node) {
+		int l_height = height(node->left);
+		int r_height = height(node->right);
+		int b_factor = l_height - r_height;
+		return b_factor;
+	}
+
+	Node*	rr_rotat(Node* parent) {
+		Node* t;
+		t = parent->right;
+		parent->right = t->left;
+		t->left = parent;
+		return t;
+	}
+
+	Node* 	ll_rotat(Node* parent) {
+		Node* t;
+		t = parent->left;
+		parent->left = t->right;
+		t->right = parent;
+   		return t;
+	}
+
+	Node*	lr_rotat(Node* parent) {
+		Node* t;
+		t = parent->left;
+		parent->left = rr_rotat(t);
+		return ll_rotat(parent);
+	}
+
+	Node* 	rl_rotat(Node* parent) {
+		Node* t;
+		t = parent->right;
+		parent->right = ll_rotat(t);
+		return rr_rotat(parent);
+	}
+
 	Node* 	insert(int val, Node* root) {
 		if (empty())
 			return (new Node(val, BLACK_N));
@@ -77,42 +126,57 @@ public:
 			if (val < root->value) {
 				root->left = insert(val, root->left);
 				root->left->parent = root;
-				root->balance_factor += 1;
-				if (root->color == BLACK_N)
+				root->balance_factor = b_factor(root);
+				if ((root->balance_factor == 0 || root->balance_factor == 1 || root->balance_factor == -1) && root->color == BLACK_N)
 					return root;
 				if (root->color == RED_N) {
 					if (root->parent->left->color == RED_N){
 						recolor(root);
 						recolor(root->parent->left);
-					} else if (root->parent->left->color == BLACK_N || root->parent->left == NULL) {
-
+					} else if (root->parent->left == NULL || root->parent->left->color == BLACK_N) {
+						if (root->balance_factor > 1) {
+							if (b_factor(root->left) > 0)
+								root = ll_rotat(root);
+							else
+								root = lr_rotat(root);
+						} else if (root->balance_factor < -1){
+							if (b_factor(root->right) > 0)
+								root = rl_rotat(root);
+							else
+								root = rr_rotat(root);
+						}
+						return root;
 					}
 				}
 			} else {
 				root->right = insert(val, root->right);
 				root->right->parent = root;
-				root->balance_factor -= 1;
+				root->balance_factor = b_factor(root);
 				if (root->color == BLACK_N)
 					return root;
 				if (root->color == RED_N) {
 					if (root->parent->right && root->parent->right->color == RED_N){
 						recolor(root);
 						recolor(root->parent->right);
-					} else if (root->parent->left->color == BLACK_N || root->parent->left == NULL) {
-						std::cout << "Jopa";
-					}
+					} else if (root->parent->right == NULL || root->parent->right->color == BLACK_N) {
+						if (root->balance_factor > 1) {
+							if (b_factor(root->left) > 0)
+								root = ll_rotat(root);
+							else
+								root = lr_rotat(root);
+						} else if (root->balance_factor < -1){
+							if (b_factor(root->right) > 0)
+								root = rl_rotat(root);
+							else
+								root = rr_rotat(root);
+						}
+						return root;
 					}
 				}
 			}
+		}
 		return root;
 	};
-
-	int height(Node* root) {
-		if (root == NULL) {
-			return 0;
-		}
-		return 1 + std::max(height(root->left), height(root->right));
-	}
 
 	void			updateBalance(Node* node) {
 		if (node->parent != NULL){
@@ -161,21 +225,19 @@ public:
 
 int main() {
 	Bst<int> tree;
-//	tree.insert(10);
-//	tree.insert(7);
-//	tree.insert(18);
-//	tree.insert(15);
-//	tree.insert(16);
-	tree.insert(33);
-	tree.insert(53);
-	tree.insert(9);
-	tree.insert(8);
-	tree.insert(21);
-	tree.insert(11);
+	tree.insert(10);
+	tree.insert(7);
+	tree.insert(18);
+	tree.insert(15);
+	tree.insert(16);
+	// tree.insert(33);
+	// tree.insert(53);
+	// tree.insert(9);
+	// tree.insert(8);
+	// tree.insert(21);
+	// tree.insert(11);
 
-	tree.insert(61);
-	tree.insert(45);
-	tree.insert(35);
+	// tree.insert(61);
 
 	tree.print();
 	return 0;

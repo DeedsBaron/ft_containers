@@ -33,337 +33,392 @@ void showTrunks(Trunk *p)
 	std::cout << p->str;
 }
 
-
-
-template <class T, class Alloc = std::allocator<T> >
-class Bst{
+template <class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
+class Bst {
 private:
 
-	typedef T			value_type;
-	typedef Alloc		allocator_type;
-	
+	template <class N>
 	struct Node {
-		value_type 		value;
-		int 			color;
-		Node 			*left;
-		Node			*right;
-		Node			*parent;
+		typedef	N					value_type;
+		typedef std::allocator<value_type>	allocator_type;
+		typedef	typename allocator_type::pointer		pointer;	
 
-		Node() : left(NULL), right(NULL) {};
-		Node(const T& value, int color) : value(value), color(color), left(NULL), right(NULL), parent(NULL) {};
-		virtual ~Node() { delete left; delete right; }
+		allocator_type				_alloc;
+		pointer						_value;
+		int 						_color;
+		Node<N>*					_left;
+		Node<N>*					_right;
+		Node<N>*					_parent;
+
+		Node(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _value(NULL), _color(BLACK_N), _left(NULL), _right(NULL), _parent(NULL) {};
+		Node(const value_type& value, int _color, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _color(_color), _left(NULL), _right(NULL), _parent(NULL) { _value = _alloc.allocate(1); _alloc.construct(_value, value); };
+		virtual ~Node() {}
 	};
 
-	struct NilNode : public Node {
-		NilNode() : Node(1337, BLACK_N) {}
-		~NilNode() {} 
+	template <class K>
+	struct NilNode : public Node<K> {
+		NilNode() : Node<K>() {}
+		~NilNode() {}
 	};
 
-	Node*				_root;
-	allocator_type		_alloc;
+	typedef T															value_type;
+	typedef Alloc														allocator_type;
+	typedef typename allocator_type::template rebind<Node<T> >::other	node_alloc;
+	typedef typename node_alloc::pointer								node_pointer;
+	typedef	Compare														compare_obj;
+
+	node_pointer						_root;
+	node_alloc							_node_alloc;
+	compare_obj							_compare;
 
 
 public:
-	Bst() : _root(NULL){}
-	~Bst() { delete _root; }
+	Bst(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _root(NULL), _node_alloc(n_alloc), _compare(compare) {}
+	~Bst() {
+		deallocateNode(_root);
+	}
 
-	void 		insert(int val){
+	void		deallocateNodeValue(node_pointer node) {
+		node->_alloc.destroy(node->_value);
+		node->_alloc.deallocate(node->_value, 1);
+	}
+
+	void		deallocateNode(node_pointer node) {
+		if (node == NULL)
+			return ;
+		deallocateNode(node->_left);
+		deallocateNode(node->_right);
+		deallocateNodeValue(node);
+		_node_alloc.destroy(node);
+		_node_alloc.deallocate(node, 1);
+	}
+
+	void 		insert(const value_type& val){
 		insert(val, _root);
 	}
 
-	void		leftRotate(Node* node)
+	void		leftRotate(node_pointer node)
 	{
-		Node* parent = node->parent;
-		Node* rightChild = node->right;
+		node_pointer parent = node->_parent;
+		node_pointer rightChild = node->_right;
 
-		node->right = rightChild->left;
-		if (rightChild->left != NULL) {
-			rightChild->left->parent = node;
+		node->_right = rightChild->_left;
+		if (rightChild->_left != NULL) {
+			rightChild->_left->_parent = node;
 		}
-		rightChild->left = node;
-		node->parent = rightChild;
+		rightChild->_left = node;
+		node->_parent = rightChild;
 		replaceParentsChild(parent, node, rightChild);
 	}
 
-	void		rightRotate(Node* node)
+	void		rightRotate(node_pointer node)
 	{
-		Node* parent = node->parent;
-		Node* leftChild = node->left;
+		node_pointer parent = node->_parent;
+		node_pointer leftChild = node->_left;
 
-		node->left = leftChild->right;
-		if (leftChild->right != NULL) {
-			leftChild->right->parent = node;
+		node->_left = leftChild->_right;
+		if (leftChild->_right != NULL) {
+			leftChild->_right->_parent = node;
 		}
-		leftChild->right = node;
-		node->parent = leftChild;
+		leftChild->_right = node;
+		node->_parent = leftChild;
 		replaceParentsChild(parent, node, leftChild);
 	}
 
-	void		replaceParentsChild(Node* parent, Node* oldChild, Node* newChild){
+	void		replaceParentsChild(node_pointer parent, node_pointer oldChild, node_pointer newChild){
 		if (parent == NULL) {
 			_root = newChild;
-		} else if (parent->left == oldChild) {
-			parent->left = newChild;
-		} else if (parent->right == oldChild) {
-			parent->right = newChild;
+		} else if (parent->_left == oldChild) {
+			parent->_left = newChild;
+		} else if (parent->_right == oldChild) {
+			parent->_right = newChild;
 		} 
 		if (newChild != NULL) {
-			newChild->parent = parent;
+			newChild->_parent = parent;
 		}
 	}
 
-	Node*		getUncle(Node* parent){
-		Node*	grandparent = parent->parent;
-		if (grandparent->left == parent) {
-			return grandparent->right;
-		} else if (grandparent->right == parent) {
-			return grandparent->left;
+	node_pointer		getUncle(node_pointer parent){
+		node_pointer	grand_parent = parent->_parent;
+		if (grand_parent->_left == parent) {
+			return grand_parent->_right;
+		} else if (grand_parent->_right == parent) {
+			return grand_parent->_left;
 		}
 		return NULL;
 	}
 
-	void		fix_insert(Node* node){
-		Node* parent = node->parent;
+	void		fix_insert(node_pointer node){
+		node_pointer parent = node->_parent;
 		// Case 1: Parent is null, we've reached the root, the end of the recursion
 		if (parent == NULL) {
 		// Uncomment the following line if you want to enforce black roots (rule 2):
-			node->color = BLACK_N;
+			node->_color = BLACK_N;
 			return;
 		}
 		// Parent is black --> nothing to do
-		if (parent->color == BLACK_N) {
+		if (parent->_color == BLACK_N) {
 			return;
 		}
-		// From here on, parent is red
-		Node* grandparent = parent->parent;
-		Node* uncle = getUncle(parent);
-		// Case 3: Uncle is red -> recolor parent, grandparent and uncle
-		if (uncle != NULL && uncle->color == RED_N) {
-			parent->color = BLACK_N;
-			grandparent->color = RED_N;
-			uncle->color = BLACK_N;
+		// From here on, _parent is red
+		node_pointer grand_parent = parent->_parent;
+		node_pointer uncle = getUncle(parent);
+		// Case 3: Uncle is red -> re_color _parent, grand_parent and uncle
+		if (uncle != NULL && uncle->_color == RED_N) {
+			parent->_color = BLACK_N;
+			grand_parent->_color = RED_N;
+			uncle->_color = BLACK_N;
 
-		// Call recursively for grandparent, which is now red.
-		// It might be root or have a red parent, in which case we need to fix more...
-		fix_insert(grandparent);
+		// Call recursively for grand_parent, which is now red.
+		// It might be root or have a red _parent, in which case we need to fix more...
+		fix_insert(grand_parent);
 		}
 
-		// Parent is left child of grandparent
-		else if (parent == grandparent->left) {
-		// Case 4a: Uncle is black and node is left->right "inner child" of its grandparent
-		if (node == parent->right) {
+		// Parent is __left child of grand_parent
+		else if (parent == grand_parent->_left) {
+		// Case 4a: Uncle is black and node is __left->_right "inner child" of its grand_parent
+		if (node == parent->_right) {
 			leftRotate(parent);
-			// Let "parent" point to the new root node of the rotated sub-tree.
-			// It will be recolored in the next step, which we're going to fall-through to.
+			// Let "_parent" point to the new root node of the rotated sub-tree.
+			// It will be re_colored in the next step, which we're going to fall-through to.
 			parent = node;
 		}
 
-			// Case 5a: Uncle is black and node is left->left "outer child" of its grandparent
-			rightRotate(grandparent);
+			// Case 5a: Uncle is black and node is __left->__left "outer child" of its grand_parent
+			rightRotate(grand_parent);
 
-			// Recolor original parent and grandparent
-			parent->color = BLACK_N;
-			grandparent->color = RED_N;
+			// Re_color original _parent and grand_parent
+			parent->_color = BLACK_N;
+			grand_parent->_color = RED_N;
 		}
 
-		// Parent is right child of grandparent
+		// Parent is _right child of grand_parent
 		else {
-			// Case 4b: Uncle is black and node is right->left "inner child" of its grandparent
-			if (node == parent->left) {
+			// Case 4b: Uncle is black and node is _right->__left "inner child" of its grand_parent
+			if (node == parent->_left) {
 				rightRotate(parent);
 
-			// Let "parent" point to the new root node of the rotated sub-tree.
-			// It will be recolored in the next step, which we're going to fall-through to.
+			// Let "_parent" point to the new root node of the rotated sub-tree.
+			// It will be re_colored in the next step, which we're going to fall-through to.
 			parent = node;
 			}
 
-			// Case 5b: Uncle is black and node is right->right "outer child" of its grandparent
-		leftRotate(grandparent);
+			// Case 5b: Uncle is black and node is _right->_right "outer child" of its grand_parent
+		leftRotate(grand_parent);
 
-		// Recolor original parent and grandparent
-		parent->color = BLACK_N;
-		grandparent->color = RED_N;
+		// Re_color original _parent and grand_parent
+		parent->_color = BLACK_N;
+		grand_parent->_color = RED_N;
 		}
 	}
 
-	void		insert(int val, Node* root) {
-		Node*	new_node = new Node(val, RED_N);
-		Node*	current = root;
-		Node*	parent = NULL;
+	node_pointer		create_nil_node(void) {
+		node_pointer	new_node = _node_alloc.allocate(1);
+		_node_alloc.construct(new_node, NilNode<T>());
+		return (new_node);
+	}
 
+	void		insert(const value_type& val, node_pointer root) {
+		node_pointer	current = root;
+		node_pointer	parent = NULL;
+		node_pointer	new_node = _node_alloc.allocate(1);
+
+		_node_alloc.construct(new_node, Node<T>(val, RED_N));
 		while (current != NULL){
+			if (!current->_left && !current->_right && !current->_value)
+				break;
 			parent = current;
-			if (new_node->value < current->value)
-				current = current->left;
-			else if (new_node->value >= current->value)
-				current = current->right;
+			if (_compare(*new_node->_value, *current->_value))
+				current = current->_left;
+			else if (_compare(*current->_value, *new_node->_value))
+				current = current->_right;
 		}
-		new_node->parent = parent;
+		new_node->_parent = parent;
 		if (parent == NULL)
 			_root = new_node;
-		else if (new_node->value < parent->value)
-			parent->left = new_node;
+		else if (_compare(*new_node->_value, *parent->_value))
+			parent->_left = new_node;
 		else
-			parent->right = new_node;
+			parent->_right = new_node;
 		fix_insert(new_node);
 	}
 
-	Node*		findMinimum(Node* node){
-		while (node->left != NULL)
-			node = node->left;
+	node_pointer		findMinimum(node_pointer node){
+		while (node->_left != NULL)
+			node = node->_left;
 		return node;
 	}
 
-	bool		isBlack(Node* node){
-		return (node == NULL || node->color == BLACK_N);
+	bool		isBlack(node_pointer node){
+		return (node == NULL || node->_color == BLACK_N);
 	}
 
-	Node*		getSibling(Node* node) {
-		Node*	parent = node->parent;
+	node_pointer		getSibling(node_pointer node) {
+		node_pointer	parent = node->_parent;
 
-		if (node == parent->left) {
-			return parent->right;
-		} else if (node == parent->right) {
-			return parent->left;
+		if (node == parent->_left) {
+			return parent->_right;
+		} else if (node == parent->_right) {
+			return parent->_left;
 		}
 		return NULL;
 	}
 
-	void		handleRedSibling(Node* node, Node* sibling) {
-		// Recolor...
-		sibling->color = BLACK_N;
-		node->parent->color = RED_N;
+	void		handleRedSibling(node_pointer node, node_pointer sibling) {
+		// Re_color...
+		sibling->_color = BLACK_N;
+		node->_parent->_color = RED_N;
 		// ... and rotate
-		if (node == node->parent->left) {
-			leftRotate(node->parent);
+		if (node == node->_parent->_left) {
+			leftRotate(node->_parent);
 		} else {
-			rightRotate(node->parent);
+			rightRotate(node->_parent);
 		}
 	}
 
-	void	handleBlackSiblingWithAtLeastOneRedChild(Node* node, Node* sibling) {
-		bool nodeIsLeftChild = (node == node->parent->left);
+	void		handleBlackSiblingWithAtLeastOneRedChild(node_pointer node, node_pointer sibling) {
+		bool nodeIsLeftChild = (node == node->_parent->_left);
 
 		// Case 5: Black sibling with at least one red child + "outer nephew" is black
-		// --> Recolor sibling and its child, and rotate around sibling
-		if (nodeIsLeftChild && isBlack(sibling->right)) {
-			sibling->left->color = BLACK_N;
-			sibling->color = RED_N;
+		// --> Re_color sibling and its child, and rotate around sibling
+		if (nodeIsLeftChild && isBlack(sibling->_right)) {
+			sibling->_left->_color = BLACK_N;
+			sibling->_color = RED_N;
 			rightRotate(sibling);
-			sibling = node->parent->right;
-		} else if (!nodeIsLeftChild && isBlack(sibling->left)) {
-			sibling->right->color = BLACK_N;
-			sibling->color = RED_N;
+			sibling = node->_parent->_right;
+		} else if (!nodeIsLeftChild && isBlack(sibling->_left)) {
+			sibling->_right->_color = BLACK_N;
+			sibling->_color = RED_N;
 			leftRotate(sibling);
-			sibling = node->parent->left;
+			sibling = node->_parent->_left;
 		}
 
 		// Fall-through to case 6...
 
 		// Case 6: Black sibling with at least one red child + "outer nephew" is red
-		// --> Recolor sibling + parent + sibling's child, and rotate around parent
-		sibling->color = node->parent->color;
-		node->parent->color = BLACK_N;
+		// --> Re_color sibling + _parent + sibling's child, and rotate around _parent
+		sibling->_color = node->_parent->_color;
+		node->_parent->_color = BLACK_N;
 		if (nodeIsLeftChild) {
-			sibling->right->color = BLACK_N;
-			leftRotate(node->parent);
+			sibling->_right->_color = BLACK_N;
+			leftRotate(node->_parent);
 		} else {
-			sibling->left->color = BLACK_N;
-			rightRotate(node->parent);
+			sibling->_left->_color = BLACK_N;
+			rightRotate(node->_parent);
 		}
 	}
 
-	void		 fixRedBlackPropertiesAfterDelete(Node* node) {
+	void		fixRedBlackPropertiesAfterDelete(node_pointer node) {
 		if (node == _root) {
-			node->color = BLACK_N;
+			node->_color = BLACK_N;
 			return ;
 		}
-		Node*	sibling = getSibling(node);
+		node_pointer	sibling = getSibling(node);
 
 		// Case 2: Red sibling
-		if (sibling->color == RED_N) {
+		if (sibling->_color == RED_N) {
 			handleRedSibling(node, sibling);
 			sibling = getSibling(node); // Get new sibling for fall-through to cases 3-6
 		}
 
 		// Cases 3+4: Black sibling with two black children
-		if (isBlack(sibling->left) && isBlack(sibling->right)) {
-			sibling->color = RED_N;
+		if (isBlack(sibling->_left) && isBlack(sibling->_right)) {
+			sibling->_color = RED_N;
 
-			// Case 3: Black sibling with two black children + red parent
-			if (node->parent->color == RED_N) {
-				node->parent->color = BLACK_N;
+			// Case 3: Black sibling with two black children + red _parent
+			if (node->_parent->_color == RED_N) {
+				node->_parent->_color = BLACK_N;
 			}
 
-			// Case 4: Black sibling with two black children + black parent
+			// Case 4: Black sibling with two black children + black _parent
 			else 
-				fixRedBlackPropertiesAfterDelete(node->parent);
+				fixRedBlackPropertiesAfterDelete(node->_parent);
 		}
 		// Case 5+6: Black sibling with at least one red child
 		else
 			handleBlackSiblingWithAtLeastOneRedChild(node, sibling);
 	}
 
-	Node*		deleteNodeZeroOrOneC(Node* node) {
-		if (node->left != NULL) {
-			replaceParentsChild(node->parent, node, node->left);
-			return node->left;
-		} else if (node->right != NULL) {
-			replaceParentsChild(node->parent, node, node->right);
-			return node->right;
+	node_pointer		deleteNodeZeroOrOneC(node_pointer node) {
+		if (node->_left != NULL) {
+			replaceParentsChild(node->_parent, node, node->_left);
+			return node->_left;
+		} else if (node->_right != NULL) {
+			replaceParentsChild(node->_parent, node, node->_right);
+			return node->_right;
 		} else {
-			Node* newChild = node->color == BLACK_N ? new NilNode() : NULL;
-			replaceParentsChild(node->parent, node, newChild);
+			node_pointer newChild = node->_color == BLACK_N ? create_nil_node() : NULL;
+			replaceParentsChild(node->_parent, node, newChild);
 			return newChild;
 		}
 		return NULL;
 	}
 
-	void		deleteNode(int val) {
-		Node*	node = _root;
-		while (node != NULL && node->value != val){
-			if (val < node->value)
-				node = node->left;
-			else
-				node = node->right;
+	node_pointer		search(const value_type& value) {
+		return search(value, _root);
+	}
+
+	node_pointer		search(const value_type& value, node_pointer node) const
+		{
+			if(!node)
+				return NULL;
+			if (_compare(value, *node->_value))
+				return search(value, node->_left);
+			if (_compare(*node->_value, value))
+				return search(value, node->_right);
+			return node;
 		}
+
+
+	void		deleteNode(const value_type& val) {
+		node_pointer	node = search(val);
+		node_pointer	movedUpNode = NULL;
+
 		if (node == NULL)
 			return ;
-		Node*	movedUpNode = NULL;
 		bool	deletedNodeColor;
-		if (node->left == NULL || node->right == NULL){
+		if (node->_left == NULL || node->_right == NULL){
 			movedUpNode = deleteNodeZeroOrOneC(node);
-			deletedNodeColor = node->color;
-			delete node;
+			deletedNodeColor = node->_color;
+			deallocateNodeValue(node);
+			_node_alloc.deallocate(node, 1);
 		} else {
-			Node*	inOrderSuccessor = findMinimum(node->right);
-			int val = inOrderSuccessor->value;
+			node_pointer	inOrderSuccessor = findMinimum(node->_right);
+			value_type* 	val = inOrderSuccessor->_value;
+
 			movedUpNode = deleteNodeZeroOrOneC(inOrderSuccessor);
-			deletedNodeColor = inOrderSuccessor->color;
-			delete inOrderSuccessor;
-			node->value = val;
+			deletedNodeColor = inOrderSuccessor->_color;
+			deallocateNodeValue(node);
+			node->_value = val;
+			_node_alloc.deallocate(inOrderSuccessor, 1);
 		}
 		if (deletedNodeColor == BLACK_N) {
 			fixRedBlackPropertiesAfterDelete(movedUpNode);
 			// Remove the temporary NIL node
-			if (dynamic_cast<NilNode*>(movedUpNode)) {
-				replaceParentsChild(movedUpNode->parent, movedUpNode, NULL);
-				delete movedUpNode;
+			// if (dynamic_cast< NilNode<value_type>* > (movedUpNode)){
+			if (!movedUpNode->_value) {
+				replaceParentsChild(movedUpNode->_parent, movedUpNode, NULL);
+				_node_alloc.deallocate(movedUpNode, 1);
 			}
 		}
 	}
 
-	void	print(){
+	void		print(){
 		printTree(_root, NULL, false);
 	};
-	void 	printTree(Node* root, Trunk *prev, bool isLeft)
+
+	void 		printTree(node_pointer root, Trunk *prev, bool isLeft)
 	{
-		if (root == NULL) {
+		if (_root == NULL || (!_root->_left && !_root->_right && !_root->_value)) {
+			std::cout << GREEN << "Tree is empty\n" << RES;
+			return;
+		}
+		if (root == NULL ) {
 			return;
 		}
 		std::string prev_str = "    ";
 		Trunk *trunk = new Trunk(prev, prev_str);
-		printTree(root->right, trunk, true);
+		printTree(root->_right, trunk, true);
 		if (!prev) {
 			trunk->str = "———";
 		}
@@ -375,15 +430,15 @@ public:
 			prev->str = prev_str;
 		}
 		showTrunks(trunk);
-		if (root->color == RED_N)
-			std::cout << " " << RED << root->value << RES << std::endl;
+		if (root->_color == RED_N)
+			std::cout << " " << RED << *root->_value << RES << std::endl;
 		else
-			std::cout << " " << root->value << std::endl;
+			std::cout << " " << *root->_value << std::endl;
 		if (prev) {
 			prev->str = prev_str;
 		}
 		trunk->str = "   |";
-		printTree(root->left, trunk, false);
+		printTree(root->_left, trunk, false);
 		delete trunk;
 	}
 };
@@ -401,8 +456,12 @@ int main() {
 	tree.insert(60);
 	tree.insert(21);
 	tree.insert(70);
-	// tree.insert(61);
-	std::cout << "JOPA\n";
+	// std::cout << "val = " << tree.search(1136)->_value << std::endl; 
+	// tree.deleteNode(7);
+	tree.deleteNode(10);
+	// tree.deleteNode(18);
+	// tree.deleteNode(7);
+	tree.insert(140);
 	tree.print();
 	return 0;
 }

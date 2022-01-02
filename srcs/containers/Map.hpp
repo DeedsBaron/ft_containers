@@ -1,10 +1,11 @@
 #pragma once
 #include "../utils/Utils.hpp"
 #include "../utils/BidirectionalIter.hpp"
+#include "../utils/RBTree.hpp"
 
 namespace ft{
 
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map{
 	public:
 		typedef	Key													key_type;
@@ -24,9 +25,15 @@ namespace ft{
 		typedef size_t												size_type;
 
 	private:
-		allocator_type		_alloc;
-		key_compare			_comp;
+		RBTree<key_type, mapped_type, key_compare, allocator_type>	_rbtree;
+		allocator_type												_alloc;
+		key_compare													_comp;
+	public:
+		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _rbtree(), _alloc(alloc), _comp(comp) {};
 
 
+		pair<iterator,bool>		insert(const value_type& val){ _rbtree.insert(val); };
+
+		void 	print(void){ _rbtree.print(); }
 	};
 };

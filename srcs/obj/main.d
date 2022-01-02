@@ -6,4 +6,5 @@ srcs/obj/main.o: main.cpp srcs/containers/Vector.hpp \
   srcs/containers/../utils/../containers/Vector.hpp \
   srcs/containers/../utils/../containers/Stack.hpp \
   srcs/containers/Stack.hpp srcs/utils/RandIterator.hpp \
-  srcs/utils/BidirectionalIter.hpp
+  srcs/utils/BidirectionalIter.hpp srcs/utils/RBTree.hpp \
+  srcs/containers/Map.hpp srcs/containers/../utils/RBTree.hpp

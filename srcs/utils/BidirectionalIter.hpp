@@ -2,7 +2,7 @@
 
 #include <iterator>
 
-template < class T >
+template <class T >
 class BidirectionalIter {
 public:
 	typedef T												value_type;

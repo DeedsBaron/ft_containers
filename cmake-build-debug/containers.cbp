@@ -86,7 +86,13 @@
 		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp">
 			<Option target="containers"/>
 		</Unit>
+		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/Node.hpp">
+			<Option target="containers"/>
+		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp">
+			<Option target="containers"/>
+		</Unit>
+		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp">
 			<Option target="containers"/>
 		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/containers/CMakeLists.txt">

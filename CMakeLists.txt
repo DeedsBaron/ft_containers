@@ -3,4 +3,4 @@ project(containers)
 
 set(CMAKE_CXX_STANDARD 98)
 
-add_executable(containers main.cpp srcs/utils/BidirectionalIter.hpp srcs/utils/RBTree.hpp)
+add_executable(containers main.cpp srcs/utils/BidirectionalIter.hpp srcs/utils/RBTree.hpp srcs/utils/TreeIter.hpp srcs/utils/Node.hpp)

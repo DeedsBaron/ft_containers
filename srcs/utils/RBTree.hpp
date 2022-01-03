@@ -2,6 +2,8 @@
 #include "Colors.hpp"
 #include <iostream>
 #include "Utils.hpp"
+#include "Node.hpp"
+#include "TreeIter.hpp"
 
 #define RED_N 0
 #define BLACK_N 1
@@ -30,46 +32,26 @@ void showTrunks(Trunk *p)
 
 template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 class RBTree {
-private:
-
-	template <class N_Key, class N_T>
-	struct Node {
-		typedef	ft::pair<const N_Key, N_T>				value_type;
-		typedef std::allocator<value_type>				allocator_type;
-		typedef	typename allocator_type::pointer		pointer;
-
-		allocator_type				_alloc;
-		pointer						_value;
-		int 						_color;
-		Node<const N_Key, N_T>*		_left;
-		Node<const N_Key, N_T>*		_right;
-		Node<const N_Key, N_T>*		_parent;
-
-		Node(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _value(NULL), _color(BLACK_N), _left(NULL), _right(NULL), _parent(NULL) {};
-		Node(const value_type& value, int _color, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _color(_color), _left(NULL), _right(NULL), _parent(NULL) { _value = _alloc.allocate(1); _alloc.construct(_value, value); };
-		virtual ~Node() {}
-	};
-
-	template <class Nn_Key, class Nn_T>
-	struct NilNode : public Node<const Nn_Key, Nn_T> {
-		NilNode() : Node<const Nn_Key, Nn_T>() {}
-		~NilNode() {}
-	};
+public:
 
 	typedef ft::pair<const Key, T>													value_type;
 	typedef Alloc																	allocator_type;
-	typedef typename allocator_type::template rebind<Node<const Key, T> >::other	node_alloc;
+	typedef typename allocator_type::template rebind<Node<value_type> >::other		node_alloc;
 	typedef typename node_alloc::pointer											node_pointer;
 	typedef	Compare																	compare_obj;
+	typedef TreeIter<value_type>													iterator;
 
-	node_pointer						_root;
-	node_alloc							_node_alloc;
-	compare_obj							_compare;
-
-public:
 	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _root(NULL), _node_alloc(n_alloc), _compare(compare) {}
 	~RBTree() {
 		deallocateNode(_root);
+	}
+
+	node_pointer		find_min(void){
+		return findMinimum(_root);
+	}
+
+	node_pointer		find_max(void){
+		return findMaximum(_root);
 	}
 
 	void				deallocateNodeValue(node_pointer node) {
@@ -208,7 +190,7 @@ public:
 
 	node_pointer		create_nil_node(void) {
 		node_pointer	new_node = _node_alloc.allocate(1);
-		_node_alloc.construct(new_node, NilNode<const Key, T>());
+		_node_alloc.construct(new_node, NilNode<value_type>());
 		return (new_node);
 	}
 
@@ -217,7 +199,7 @@ public:
 		node_pointer	parent = NULL;
 		node_pointer	new_node = _node_alloc.allocate(1);
 
-		_node_alloc.construct(new_node, Node<const Key, T>(val, RED_N));
+		_node_alloc.construct(new_node, Node<value_type>(val, RED_N));
 		while (current != NULL){
 			if (!current->_left && !current->_right && !current->_value)
 				break;
@@ -235,6 +217,12 @@ public:
 		else
 			parent->_right = new_node;
 		fix_insert(new_node);
+	}
+
+	node_pointer		findMaximum(node_pointer node){
+		while(node->_right != NULL)
+			node = node->_right;
+		return node;
 	}
 
 	node_pointer		findMinimum(node_pointer node){
@@ -348,7 +336,7 @@ public:
 		return NULL;
 	}
 
-	node_pointer		search(const value_type& value) {
+	node_pointer		search(const Key& value) {
 		return search(value, _root);
 	}
 
@@ -434,4 +422,10 @@ public:
 		printTree(root->_left, trunk, false);
 		delete trunk;
 	}
+
+
+private:
+	node_pointer						_root;
+	node_alloc							_node_alloc;
+	compare_obj							_compare;
 };

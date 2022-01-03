@@ -2,6 +2,7 @@
 #include "../utils/Utils.hpp"
 #include "../utils/BidirectionalIter.hpp"
 #include "../utils/RBTree.hpp"
+#include "../utils/TreeIter.hpp"
 
 namespace ft{
 
@@ -18,7 +19,7 @@ namespace ft{
 		typedef typename allocator_type::const_reference			const_reference;
 		typedef typename allocator_type::pointer					pointer;
 		typedef typename allocator_type::const_pointer				const_pointer;
-		typedef BidirectionalIter<mapped_type>						iterator;
+		typedef TreeIter<value_type>								iterator;
 		typedef BidirectionalIter<const mapped_type>				const_iterator;
 		typedef ReverseIterator<iterator>							reverse_iterator;
 		typedef typename iterator_traits<iterator>::difference_type difference_type;
@@ -32,8 +33,8 @@ namespace ft{
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _rbtree(), _alloc(alloc), _comp(comp) {};
 
 
-		pair<iterator,bool>		insert(const value_type& val){ _rbtree.insert(val); };
-
-		void 	print(void){ _rbtree.print(); }
+		void		insert(const value_type& val) { _rbtree.insert(val); };
+		iterator					begin() { return iterator(_rbtree.find_min()->_value); };
+		void 	print(void) { _rbtree.print(); };
 	};
 };

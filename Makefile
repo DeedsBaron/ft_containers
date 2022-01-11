@@ -76,3 +76,4 @@ re: fclean all
 .PHONY: all lib clean fclean re
 
 -include $(TEST_OBJS:.o=.d)
+-include $(OBJS:.o=.d)

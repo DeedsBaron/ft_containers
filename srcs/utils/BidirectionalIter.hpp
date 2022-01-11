@@ -2,6 +2,7 @@
 
 #include <iterator>
 
+
 template <class T >
 class BidirectionalIter {
 public:

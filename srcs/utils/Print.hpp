@@ -1,7 +1,9 @@
 #pragma once
 #include "../containers/Vector.hpp"
 #include "../containers/Stack.hpp"
+#include "../containers/Map.hpp"
 #include <vector>
+#include <map>
 
 template < typename T>
 void 	print_cap(std::vector<T>& a1){
@@ -65,4 +67,18 @@ void	print_info(ft::stack<T>& a1){
 	print_size(a1);
 	print_cap(a1);
 	std::cout << PURPLE << "::::::::::::::::::::::::::::::::::::\n" << RES;
+}
+
+template <typename Key, typename T>
+void 	print(std::map<Key, T>& map1){
+	for (typename std::map<Key, T>::iterator it = map1.begin(); it != map1.end(); it++){
+		std::cout << "Key = " << it->first << " Val = " << it->second << std::endl;
+	}
+}
+
+template <typename Key, typename T>
+void 	print(ft::map<Key, T>& map1){
+	for (typename ft::map<Key, T>::iterator it = map1.begin(); it != map1.end(); it++){
+		std::cout << "Key = " << it->first << " Val = " << it->second << std::endl;
+	}
 }

@@ -11,24 +11,22 @@ srcs/containers/Vector.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Vector.hpp
 srcs/utils/Colors.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
+srcs/utils/RBTree.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
 srcs/utils/Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 srcs/utils/Print.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Print.hpp
-vector
--
-iostream
--
 srcs/containers/Stack.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
 srcs/utils/RandIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
 srcs/utils/BidirectionalIter.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
-srcs/utils/RBTree.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
 srcs/containers/Map.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
+map
+-
 
 /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
 ../utils/Utils.hpp
@@ -71,7 +69,11 @@ Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Vector.hpp
 ../containers/Stack.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
+../containers/Map.hpp
+/Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
 vector
+-
+map
 -
 
 /Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
@@ -83,6 +85,8 @@ Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 Node.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
+TreeIter.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
 BidirectionalIter.hpp

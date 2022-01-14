@@ -34,7 +34,7 @@ void showTrunks(Trunk *p)
 template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 class RBTree {
 public:
-
+	//typedefs
 	typedef T																		mapped_type;
 	typedef Key																		key_type;
 	typedef ft::pair<const Key, T>													value_type;
@@ -43,24 +43,37 @@ public:
 	typedef typename node_alloc::pointer											node_pointer;
 	typedef	Compare																	compare_obj;
 	typedef TreeIter<value_type>													iterator;
+	typedef TreeIter<const value_type>												const_iterator;
 	typedef size_t 																	size_type;
-
+	//constructors & destructors
 	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _size(0), _end(NULL), _root(NULL), _node_alloc(n_alloc), _compare(compare) {}
 	~RBTree() {
 		deallocateNode(_root);
 	}
+	//iterators
+
+	iterator 						begin() {
+		return (isEmpty() ? iterator(_end) : iterator(find_min()));
+	}
+
+	const_iterator					begin() const {
+		const_iterator iterator1(find_min());
+
+//		return (isEmpty() ? const_iterator(_end) : const_iterator(find_min()));
+	}
+
+	iterator 						end() {
+		return (isEmpty() ? iterator(_end) : iterator(_end->_right));
+	}
+
+//	const_iterator 					end() const {
+//		return (isEmpty() ? const_iterator(_end) : const_iterator(_end->_right));
+//	}
 
 	size_type						get_size() const { return _size; }
 
-	iterator 						end(){
-		return (isEmpty() ? _end : _end->_right);
-	}
 
-	iterator 						begin(){
-		return (isEmpty() ? _end : iterator(find_min()));
-	}
-
-	node_pointer					find_min(void){
+	node_pointer					find_min(void) const {
 		return findMinimum(_root);
 	}
 
@@ -337,13 +350,15 @@ public:
 		return (new_node);
 	}
 
-	node_pointer					findMaximum(node_pointer node){
+	node_pointer					findMaximum(node_pointer node) {
+		if (!node)
+			return NULL;
 		while(node->_right != NULL)
 			node = node->_right;
 		return node;
 	}
 
-	node_pointer					findMinimum(node_pointer node){
+	node_pointer					findMinimum(node_pointer node) const {
 		while (node->_left != NULL)
 			node = node->_left;
 		return node;
@@ -472,7 +487,7 @@ public:
 		printTree(_root, NULL, false);
 	};
 
-	bool 							isEmpty(){
+	bool 							isEmpty() const {
 		return (_root == NULL || (!_root->_left && !_root->_right && !_root->_value));
 	}
 
@@ -516,6 +531,11 @@ public:
 		delete trunk;
 	}
 
+	void 							swap(RBTree& x) {
+		std::swap(_size, x._size);
+		std::swap(_end, x._end);
+		std::swap(_root, x._root);
+	}
 
 private:
 	size_type							_size;

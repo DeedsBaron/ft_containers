@@ -18,6 +18,7 @@ public:
 
 	TreeIter(void) : BidirectionalIter<Node<T> >() {}
 	TreeIter(node_pointer x) : BidirectionalIter<Node<T> >(x) {}
+//	TreeIter(const node_pointer x) : BidirectionalIter<Node<T> >(x) {}
 	~TreeIter(void) {}
 
 	TreeIter& 		operator++() {

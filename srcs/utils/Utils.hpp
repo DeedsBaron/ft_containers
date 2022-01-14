@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include "Node.hpp"
 
 namespace ft {
 	template<bool Cond, class T = void>
@@ -8,6 +9,12 @@ namespace ft {
 
 	template<class T>
 	struct enable_if<true, T> { typedef T type; };
+
+
+	template<class T> struct remove_const { typedef T type; };
+
+	template<class T> struct remove_const <const T> { typedef T type; };
+
 
 	template <typename T>
 	struct is_integral { static const bool value = false; };

@@ -9,7 +9,9 @@
 #include "srcs/containers/Map.hpp"
 #include <map>
 
-
+ft::map<int, char>::const_iterator		func(const ft::map<int, char>& map){
+	return map.begin();
+}
 
 
 int main() {
@@ -17,15 +19,13 @@ int main() {
 	for (int i = 0; i < 10; i++)
 		mymap.insert(ft::make_pair(i, 'a'));
 	mymap.print();
-	std::cout << "size = " << mymap.size() << std::endl;
-	mymap.erase(++mymap.begin());
+	for (ft::map<int, char>::iterator start = mymap.begin(); start != mymap.end(); start++){
+		std::cout << "first = " << start->first << "\nsecond = " << start->second << std::endl;
+	}
+	ft::map<int, char>::iterator start = mymap.begin();
+	start->second = 'H';
 	mymap.print();
-	std::cout << "size = " << mymap.size() << std::endl;
-	std::cout << "erase ret = " << mymap.erase(19) << std::endl;
-	mymap.print();
-	std::cout << "erase ret = " << mymap.erase(5) << std::endl;
-	mymap.print();
-	mymap.erase(mymap.begin(), mymap.end());
-	mymap.print();
+	ft::map<int, char>::const_iterator start1 = func(mymap);
+	std::cout << "const first = " << start1->first << "\nsecond = " << start1->second << std::endl;
 	return 0;
 }

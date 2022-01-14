@@ -43,7 +43,7 @@ namespace ft {
 		//iterators
 		iterator begin() { return(_rbtree.begin()); };
 
-		const_iterator begin() const { return _rbtree.begin(); };
+//		const_iterator begin() const { return _rbtree.begin(); };
 
 		iterator end() { return(_rbtree.end()); };
 

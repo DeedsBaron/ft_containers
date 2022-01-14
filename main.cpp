@@ -9,9 +9,9 @@
 #include "srcs/containers/Map.hpp"
 #include <map>
 
-ft::map<int, char>::const_iterator		func(const ft::map<int, char>& map){
-	return map.begin();
-}
+//ft::map<int, char>::const_iterator		func(const ft::map<int, char>& map){
+//	return map.begin();
+//}
 
 
 int main() {
@@ -25,7 +25,7 @@ int main() {
 	ft::map<int, char>::iterator start = mymap.begin();
 	start->second = 'H';
 	mymap.print();
-	ft::map<int, char>::const_iterator start1 = func(mymap);
-	std::cout << "const first = " << start1->first << "\nsecond = " << start1->second << std::endl;
+//	ft::map<int, char>::const_iterator start1 = func(mymap);
+//	std::cout << "const first = " << start1->first << "\nsecond = " << start1->second << std::endl;
 	return 0;
 }

@@ -4,22 +4,23 @@
 #include "Node.hpp"
 
 template <class T>
-class TreeIter : public BidirectionalIter<Node<T> > {
+class TreeIter {
 public:
 	typedef	T															value_type;
 	typedef T*															pointer;
 	typedef T&															reference;
-	typedef	Node<T> 													node;
-	typedef typename BidirectionalIter<Node<T> >::value_type 			node_value_type;
-	typedef typename BidirectionalIter<Node<T> >::difference_type		node_difference_type;
-	typedef typename BidirectionalIter<Node<T> >::pointer 				node_pointer;
-	typedef typename BidirectionalIter<Node<T> >::reference 			node_reference;
+	typedef	Node<T>* 													node_pointer;
 	typedef typename std::bidirectional_iterator_tag					iterator_category;
+	typedef typename std::ptrdiff_t										difference_type;
 
-	TreeIter(void) : BidirectionalIter<Node<T> >() {}
-	TreeIter(node_pointer x) : BidirectionalIter<Node<T> >(x) {}
+	TreeIter(void) : _i_pointer(NULL) {}
+	TreeIter(node_pointer x) : _i_pointer(x) {};
 //	TreeIter(const node_pointer x) : BidirectionalIter<Node<T> >(x) {}
 	~TreeIter(void) {}
+
+//	Node<ft::pair<const int, char> > * <const ft::pair<const int, char> >
+//	operator TreeIter<>() {return my_list_iterator<const Node>{pos_};}
+	bool 					operator!=(const TreeIter& ins) { return (_i_pointer != ins._i_pointer); }
 
 	TreeIter& 		operator++() {
 		node_pointer 	node = this->_i_pointer;
@@ -42,4 +43,7 @@ public:
 	TreeIter		operator++(int) { TreeIter tmp(*this); ++(*this); return tmp; }
 
 	pointer			operator->() { return (this->_i_pointer->_value); }
+
+private:
+	node_pointer _i_pointer;
 };

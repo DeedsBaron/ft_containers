@@ -57,8 +57,8 @@ public:
 	}
 
 	const_iterator					begin() const {
-		const_iterator iterator1(find_min());
-
+		TreeIter<value_type>  iter(find_min());
+		return iter;
 //		return (isEmpty() ? const_iterator(_end) : const_iterator(find_min()));
 	}
 

@@ -55,6 +55,8 @@ iostream
 /Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
 iterator
 -
+Utils.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
 
@@ -101,4 +103,6 @@ Node.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 iostream
 -
+Node.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
 

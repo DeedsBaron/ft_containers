@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "Node.hpp"
 #include "TreeIter.hpp"
+#include "ReverseIterator.hpp"
 
 #define RED_N 0
 #define BLACK_N 1
@@ -44,9 +45,11 @@ public:
 	typedef	Compare																	compare_obj;
 	typedef TreeIter<value_type>													iterator;
 	typedef TreeIter<const value_type>												const_iterator;
+	typedef	 ReverseIterator<iterator>												reverse_iterator;
+	typedef	 ReverseIterator<const_iterator>										const_reverse_iterator;
 	typedef size_t 																	size_type;
 	//constructors & destructors
-	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _size(0), _end(NULL), _root(NULL), _node_alloc(n_alloc), _compare(compare) {}
+	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _size(0), _end(create_nil_node()), _root(_end), _node_alloc(n_alloc), _compare(compare) {}
 	~RBTree() {
 		deallocateNode(_root);
 	}
@@ -57,19 +60,31 @@ public:
 	}
 
 	const_iterator					begin() const {
-		TreeIter<value_type>  iter(find_min());
-		return iter;
-//		return (isEmpty() ? const_iterator(_end) : const_iterator(find_min()));
+		return (isEmpty() ? const_iterator(_end) : const_iterator(find_min()));
 	}
 
 	iterator 						end() {
-		return (isEmpty() ? iterator(_end) : iterator(_end->_right));
+		return (isEmpty() ? iterator(_end) : iterator(_end));
 	}
 
-//	const_iterator 					end() const {
-//		return (isEmpty() ? const_iterator(_end) : const_iterator(_end->_right));
-//	}
+	const_iterator 					end() const {
+		return (isEmpty() ? const_iterator(_end) : const_iterator(_end));
+	}
 
+	reverse_iterator				rbegin(){
+		return (reverse_iterator(end()));
+	}
+	const_reverse_iterator			rbegin() const{
+		return (const_reverse_iterator(end()));
+	}
+
+	reverse_iterator 				rend(){
+		return (reverse_iterator(begin()));
+	}
+
+	const_reverse_iterator 			rend() const{
+		return (const_reverse_iterator(begin()));
+	}
 	size_type						get_size() const { return _size; }
 
 
@@ -102,9 +117,11 @@ public:
 		return (ret);
 	}
 
-	ft::pair<iterator, bool> 		insert(const value_type& val){
+	ft::pair<iterator, bool> 		insert(const value_type& val) {
 		ft::pair<iterator, bool> ret = insert(val, _root);
-		_end = find_max();
+		node_pointer max = find_max();
+		max->_right = _end;
+		_end->_parent = max;
 		return (ret);
 	}
 
@@ -495,6 +512,7 @@ public:
 	{
 		if (isEmpty()) {
 			std::cout << GREEN << "Tree is empty\n" << RES;
+			std::cout << " nil_node\n";
 			return;
 		}
 		if (root == NULL ) {

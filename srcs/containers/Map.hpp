@@ -3,6 +3,7 @@
 #include "../utils/BidirectionalIter.hpp"
 #include "../utils/RBTree.hpp"
 #include "../utils/TreeIter.hpp"
+#include "../utils/ReverseIterator.hpp"
 
 namespace ft {
 
@@ -20,7 +21,8 @@ namespace ft {
 		typedef typename allocator_type::const_pointer				const_pointer;
 		typedef TreeIter<value_type>								iterator;
 		typedef TreeIter<const value_type>							const_iterator;
-		typedef ReverseIterator <iterator>							reverse_iterator;
+		typedef	ReverseIterator<iterator>							reverse_iterator;
+		typedef	ReverseIterator<const_iterator>						const_reverse_iterator;
 		typedef typename iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t 												size_type;
 
@@ -41,14 +43,23 @@ namespace ft {
 
 		map(const map &x);
 		//iterators
-		iterator begin() { return(_rbtree.begin()); };
+		iterator 			begin() { return(_rbtree.begin()); };
 
-//		const_iterator begin() const { return _rbtree.begin(); };
+		const_iterator 		begin() const { return _rbtree.begin(); };
 
-		iterator end() { return(_rbtree.end()); };
+		iterator 			end() { return(_rbtree.end()); };
 
-//		const_iterator end() const { return(_rbtree.end()); };
-		//capacity
+		const_iterator 		end() const { return(_rbtree.end()); };
+
+		reverse_iterator				rbegin() { return (_rbtree.rbegin()); }
+
+		const_reverse_iterator			rbegin() const { return (_rbtree.rbegin()); }
+
+		reverse_iterator 				rend() { return (_rbtree.rend()); }
+
+		const_reverse_iterator 			rend() const { return (const_reverse_iterator(begin())); }
+
+//		capacity
 
 
 		ft::pair<iterator, bool> insert(const value_type &val) { return (_rbtree.insert(val)); };

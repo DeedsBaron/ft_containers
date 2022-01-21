@@ -37,6 +37,8 @@ map
 /Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
 ../utils/TreeIter.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
+../utils/ReverseIterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
 
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
 Vector.hpp
@@ -51,6 +53,8 @@ iostream
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 ../utils/Colors.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
+../utils/ReverseIterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
 iterator
@@ -89,10 +93,16 @@ Node.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
 TreeIter.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
+ReverseIterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
 BidirectionalIter.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
+
+/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
+Utils.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
 BidirectionalIter.hpp

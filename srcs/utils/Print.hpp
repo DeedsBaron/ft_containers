@@ -70,14 +70,14 @@ void	print_info(ft::stack<T>& a1){
 }
 
 template <typename Key, typename T>
-void 	print(std::map<Key, T>& map1){
+void 	print_info(std::map<Key, T>& map1){
 	for (typename std::map<Key, T>::iterator it = map1.begin(); it != map1.end(); it++){
 		std::cout << "Key = " << it->first << " Val = " << it->second << std::endl;
 	}
 }
 
 template <typename Key, typename T>
-void 	print(ft::map<Key, T>& map1){
+void 	print_info(ft::map<Key, T>& map1){
 	for (typename ft::map<Key, T>::iterator it = map1.begin(); it != map1.end(); it++){
 		std::cout << "Key = " << it->first << " Val = " << it->second << std::endl;
 	}

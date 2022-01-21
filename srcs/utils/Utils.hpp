@@ -84,7 +84,7 @@ namespace ft {
 		~pair() {};
 
 		pair&	operator=(const pair& pr) {
-			if (&pr == this)
+			if (this == &pr)
 				return (*this);
 			first = pr.first;
 			second = pr.second;
@@ -95,3 +95,25 @@ namespace ft {
 	template <class T1,class T2>
 	pair<T1, T2>		make_pair(T1 x, T2 y) { return (pair<T1, T2>(x,y)); }
 };
+
+struct Trunk
+{
+	Trunk *prev;
+	std::string str;
+
+	Trunk(Trunk *prev, std::string str)
+	{
+		this->prev = prev;
+		this->str = str;
+	}
+};
+
+void showTrunks(Trunk *p)
+{
+	if (p == NULL) {
+		return;
+	}
+
+	showTrunks(p->prev);
+	std::cout << p->str;
+}

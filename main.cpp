@@ -9,62 +9,45 @@
 #include "srcs/containers/Map.hpp"
 #include <map>
 
-//ft::map<int, char>::const_iterator		func(const ft::map<int, char>& map){
-//	return map.begin();
-//}
+bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
+struct classcomp {
+	bool operator() (const char& lhs, const char& rhs) const
+	{return lhs<rhs;}
+};
 
 int main()
 {
 	{
-//		std::map<int, char> mymap;
-//		for (int i = 0; i < 10; i++)
-//			mymap.insert(std::make_pair(i, 'a'));
-////		for (std::map<int, char>::iterator start = mymap.begin(); start != mymap.end(); start++)
-////			std::cout << "first = " << start->first << "\nsecond = " << start->second << std::endl;
-//		std::map<int, char>::iterator end = mymap.end();
-//		--end;
-//		std::cout << "first = " << end->first << "\nsecond = " << end->second << std::endl;
-//		//	for (int i = 0; i < 10; i++)
-////		mymap.erase(i);
+		std::cout << CYAN << "first \n" << RES;
+		std::map<int, char> first;
+		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			first.insert(std::make_pair(i, 'a'));
+		print_info(first);
+		std::cout << CYAN << "second(first.begin(),first.end())\n" << RES;
+		std::map<int, char > second (first.begin(),first.end());
+		print_info(second);
+		std::cout << CYAN << "third(first.begin(),first.end())\n" << RES;
+		std::map<int, char> third(second);
+		print_info(third);
 	}
-	std::cout << GREEN << "::::::::::::::::::::::::::::::\n" << RES;
+
+	std::cout << YELLOW << "::::::::::::CONSTRUCTORS::::::::::::\n" << RES ;
 	{
-		ft::map<int, char> mymap;
-		for (int i = 0; i < 10; i++)
-			mymap.insert(ft::make_pair(i, 'a'));
-//		for (ft::map<int, char>::iterator start = mymap.begin(); start != mymap.end(); start++)
-//			std::cout << "first = " << start->first << "\nsecond = " << start->second << std::endl;
-		ft::map<int, char>::reverse_iterator rit;
-		for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
-			std::cout << rit->first << " => " << rit->second << '\n';
-
-//		std::cout << "first = " << end->first << "\nsecond = " << start->second << std::endl;
-		//	for (int i = 0; i < 10; i++)
-//		mymap.erase(i);
-		mymap.print();
+		std::cout << CYAN << "first \n" << RES;
+		ft::map<int, char> first;
+		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
+		for (int i = 0; i < 3; i++)
+			first.insert(ft::make_pair(i, 'a'));
+		print_info(first);
+		std::cout << CYAN << "second(first.begin(),first.end())\n" << RES;
+		ft::map<int, char> second(first.begin(), first.end());
+		print_info(second);
+		std::cout << CYAN << "third(second)\n" << RES;
+		ft::map<int, char> third(first);
+		third.print();
+		print_info(third);
 	}
-
-//	for (ft::map<int, char>::iterator start = mymap.begin(); start != mymap.end(); start++){
-//		std::cout << "first = " << start->first << "\nsecond = " << start->second << std::endl;
-//	}
-//	ft::map<int, char>::iterator start = mymap.begin();
-//	start->second = 'H';
-//	mymap.print();
-//	ft::map<int, char>::const_iterator start1 = start;
-//	std::cout << "first = " << start1->first << "\nsecond = " << start1->second << std::endl;
-//	std::cout << (*start).second;
-	//	std::cout << "const first = " << start1->first << "\nsecond = " << start1->second << std::endl;
-//	std::vector<int> myvec;
-//	for (int i = 0; i < 10; i++)
-//		myvec.push_back(i);
-//	print_info(myvec);
-//	std::vector<int>::iterator non_const_start = myvec.begin();
-//	std::vector<int>::const_iterator const_start = myvec.begin();
-//	non_const_start++;
-//	std::cout << "non_const iter = " << *non_const_start << std::endl;
-//	std::cout << "const iter = " << *const_start << std::endl;
-//	*non_const_start = 55;
-//	*const_start = 1335;
 	return 0;
 }

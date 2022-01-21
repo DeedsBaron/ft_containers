@@ -31,6 +31,26 @@ namespace ft {
 		allocator_type _alloc;
 		key_compare _comp;
 		size_type _size;
+
+		template <class Keyy, class TT, class Comparee, class Allocc>
+		class value_compare
+		{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+			friend class map;
+		protected:
+			Compare comp;
+			value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+		public:
+			typedef bool result_type;
+			typedef value_type first_argument_type;
+			typedef value_type second_argument_type;
+			bool operator() (const value_type& x, const value_type& y) const
+			{
+				return comp(x.first, y.first);
+			}
+		};
+
+
+
 	public:
 		//constructors
 		explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) :
@@ -41,7 +61,18 @@ namespace ft {
 			const allocator_type &alloc = allocator_type()) :
 				_rbtree(), _alloc(alloc), _comp(comp), _size(0) { _rbtree.insert(first, last); };
 
-		map(const map &x);
+		map(const map &x) { *this = x; };
+
+		map&	operator=(const map& ins) {
+			if (this == &ins)
+				return *this;
+			_comp = ins._comp;
+			_alloc = ins._alloc;
+			_rbtree = ins._rbtree;
+			_size = ins._size;
+
+			return *this;
+		}
 		//iterators
 		iterator 			begin() { return(_rbtree.begin()); };
 

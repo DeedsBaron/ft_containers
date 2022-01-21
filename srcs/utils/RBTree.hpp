@@ -10,32 +10,11 @@
 #define RED_N 0
 #define BLACK_N 1
 
-struct Trunk
-{
-	Trunk *prev;
-	std::string str;
 
-	Trunk(Trunk *prev, std::string str)
-	{
-		this->prev = prev;
-		this->str = str;
-	}
-};
-
-void showTrunks(Trunk *p)
-{
-	if (p == NULL) {
-		return;
-	}
-
-	showTrunks(p->prev);
-	std::cout << p->str;
-}
 
 template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 class RBTree {
 public:
-	//typedefs
 	typedef T																		mapped_type;
 	typedef Key																		key_type;
 	typedef ft::pair<const Key, T>													value_type;
@@ -48,10 +27,52 @@ public:
 	typedef	 ReverseIterator<iterator>												reverse_iterator;
 	typedef	 ReverseIterator<const_iterator>										const_reverse_iterator;
 	typedef size_t 																	size_type;
-	//constructors & destructors
+
+private:
+	size_type							_size;
+	node_pointer						_end;
+	node_pointer						_root;
+	node_alloc							_node_alloc;
+	compare_obj							_compare;
+
+public:
+	//constructors & destructors & operator=
 	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _size(0), _end(create_nil_node()), _root(_end), _node_alloc(n_alloc), _compare(compare) {}
+	RBTree(const RBTree& x) { *this = x; }
 	~RBTree() {
 		deallocateNode(_root);
+	}
+
+	node_pointer	cloneNode(node_pointer Node2Clone) {
+		node_pointer ClonedNode = NULL;
+		if (Node2Clone){
+			ClonedNode = _node_alloc.allocate(1);
+			_node_alloc.construct(ClonedNode, Node<value_type>(*Node2Clone));
+		}
+		ClonedNode->_left = NULL;
+		ClonedNode->_right = NULL;
+		ClonedNode->_parent = NULL;
+		return ClonedNode;
+	}
+
+	node_pointer 		copyInOrder(node_pointer Tree2Copy){
+		if (Tree2Copy == NULL)
+			return NULL;
+		node_pointer new_node = cloneNode(Tree2Copy);
+		new_node->_left = copyInOrder(Tree2Copy->_left);
+		new_node->_right = copyInOrder(Tree2Copy->_right);
+		return new_node;
+	}
+
+	RBTree&		operator=(const RBTree& ins) {
+		if (this == &ins)
+			return *this;
+		_node_alloc = ins._node_alloc;
+		_compare = ins._compare;
+		_size = ins._size;
+		_root = copyInOrder(ins._root);
+		setEnd();
+		return *this;
 	}
 	//iterators
 
@@ -106,22 +127,26 @@ public:
 			return ;
 		deallocateNode(node->_left);
 		deallocateNode(node->_right);
-		deallocateNodeValue(node);
+//		deallocateNodeValue(node);
 		_node_alloc.destroy(node);
 		_node_alloc.deallocate(node, 1);
 	}
 
 	iterator						insert(iterator position, const value_type& val) {
 		iterator		ret = insert_hint(position, val);
-		_end = find_max();
+		setEnd();
 		return (ret);
+	}
+
+	void 							setEnd(void) {
+		node_pointer max = this->find_max();
+		max->_right = this->_end;
+		this->_end->_parent = max;
 	}
 
 	ft::pair<iterator, bool> 		insert(const value_type& val) {
 		ft::pair<iterator, bool> ret = insert(val, _root);
-		node_pointer max = find_max();
-		max->_right = _end;
-		_end->_parent = max;
+		setEnd();
 		return (ret);
 	}
 
@@ -370,7 +395,7 @@ public:
 	node_pointer					findMaximum(node_pointer node) {
 		if (!node)
 			return NULL;
-		while(node->_right != NULL)
+		while(node->_right != NULL && node->_right->_value != NULL)
 			node = node->_right;
 		return node;
 	}
@@ -511,7 +536,7 @@ public:
 	void 							printTree(node_pointer root, Trunk *prev, bool isLeft)
 	{
 		if (isEmpty()) {
-			std::cout << GREEN << "Tree is empty\n" << RES;
+			std::cout << GREEN << "Map is empty\n" << RES;
 			std::cout << " nil_node\n";
 			return;
 		}
@@ -554,11 +579,4 @@ public:
 		std::swap(_end, x._end);
 		std::swap(_root, x._root);
 	}
-
-private:
-	size_type							_size;
-	node_pointer						_end;
-	node_pointer						_root;
-	node_alloc							_node_alloc;
-	compare_obj							_compare;
 };

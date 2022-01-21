@@ -19,7 +19,26 @@ struct Node {
 
 	Node(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _value(NULL), _color(BLACK_N), _left(NULL), _right(NULL), _parent(NULL) {};
 	Node(const value_type& value, int _color, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _color(_color), _left(NULL), _right(NULL), _parent(NULL) { _value = _alloc.allocate(1); _alloc.construct(_value, value); };
-	virtual ~Node() {}
+	Node (const Node& x) { *this = x;}
+	Node&	operator=(const Node& x) {
+		if (this == &x)
+			return *this;
+		_alloc = x._alloc;
+		_color = x._color;
+		_left = x._left;
+		_right = x._right;
+		_parent = x._parent;
+		if (x._value) {
+			_value = _alloc.allocate(1);
+			_alloc.construct(_value, *(x._value));
+		} else
+			_value = NULL;
+		return *this;
+	}
+	virtual ~Node() {
+		_alloc.destroy(_value);
+		_alloc.deallocate(_value, 1);
+	}
 };
 
 template <class T>

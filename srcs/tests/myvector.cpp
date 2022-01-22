@@ -1,6 +1,5 @@
 #include "../containers/Vector.hpp"
 #include "../utils/Colors.hpp"
-#include "../utils/Utils.hpp"
 #include "../utils/Print.hpp"
 #include <iostream>
 #include <sys/time.h>

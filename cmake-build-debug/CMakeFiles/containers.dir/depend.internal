@@ -6,7 +6,7 @@ CMakeFiles/containers.dir/main.cpp.o
  /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
  /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
  /Users/dbaron/Desktop/containers/srcs/containers/Vector.hpp
- /Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
+ /Users/dbaron/Desktop/containers/srcs/utils/Bidirectionalterator.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/Print.hpp

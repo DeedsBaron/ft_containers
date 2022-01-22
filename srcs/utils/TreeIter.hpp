@@ -1,31 +1,29 @@
 #pragma once
 
-#include "BidirectionalIter.hpp"
+#include "Bidirectionalterator.hpp"
 #include "Node.hpp"
 
 template < class T >
-class TreeIter : public BidirectionalIter< Node<typename ft::remove_const<T>::type> > {
+class TreeIter : public Bidirectionalterator< Node<typename ft::remove_const<T>::type> > {
 public:
 	typedef	T															value_type;
 	typedef T*															pointer;
 	typedef T&															reference;
 	typedef const T&													const_reference;
-	typedef	Node<T>* 													node_pointer;
+	typedef	Node<typename ft::remove_const<T>::type>* 					node_pointer;
 	typedef typename std::bidirectional_iterator_tag					iterator_category;
 	typedef typename std::ptrdiff_t										difference_type;
-
-	TreeIter(void) : BidirectionalIter< Node<typename ft::remove_const<T>::type> > (NULL) {};
-	TreeIter(node_pointer x) :  BidirectionalIter< Node<typename ft::remove_const<T>::type> >(x) {};
-	TreeIter(const TreeIter<typename ft::remove_const<T>::type>& ins) : BidirectionalIter< Node<typename ft::remove_const<T>::type> >(ins) {};
+	//constructors & destructor
+	TreeIter(void) : Bidirectionalterator< Node<typename ft::remove_const<T>::type> > (NULL) {}
+	TreeIter(node_pointer x) : Bidirectionalterator< Node<typename ft::remove_const<T>::type> >(x) {}
+	TreeIter(const TreeIter<typename ft::remove_const<T>::type>& ins) :
+				Bidirectionalterator< Node<typename ft::remove_const<T>::type> >(ins) {}
 	~TreeIter(void) {}
-
+	//operator overloads
 	reference 				operator*() { return *(this->_i_pointer->_value); }
-
 	const_reference 		operator*() const { return *(this->_i_pointer->_value); }
-
-	pointer			operator->() { return (this->_i_pointer->_value); }
-
-	TreeIter& 		operator++() {
+	pointer					operator->() { return (this->_i_pointer->_value); }
+	TreeIter& 				operator++() {
 		node_pointer 	node = this->_i_pointer;
 		if (node->_right){
 			node = node->_right;
@@ -41,9 +39,8 @@ public:
 			this->_i_pointer = parent;
 		}
 		return (*this);
-	};
-
-	TreeIter&		operator--() {
+	}
+	TreeIter&				operator--() {
 		node_pointer 	node = this->_i_pointer;
 		if (node->_left){
 			node = node->_left;
@@ -60,8 +57,5 @@ public:
 		}
 		return (*this);
 	}
-
-	TreeIter		operator++(int) { TreeIter tmp(*this); ++(*this); return tmp; }
-
-
+	TreeIter				operator++(int) { TreeIter tmp(*this); ++(*this); return tmp; }
 };

@@ -1,0 +1,21 @@
+[0;32m-------------=STDMAP=-------------
+[m[0;33m::::::::::::CONSTRUCTORS::::::::::::
+[m[0;36mfirst 
+[m[0;36mfirst.insert(<'a', 0> ... <'a', 4>) 
+[mKey = 0 Val = a
+Key = 1 Val = a
+Key = 2 Val = a
+Key = 3 Val = a
+Key = 4 Val = a
+[0;36msecond(first.begin(),first.end())
+[mKey = 0 Val = a
+Key = 1 Val = a
+Key = 2 Val = a
+Key = 3 Val = a
+Key = 4 Val = a
+[0;36mthird(second)
+[mKey = 0 Val = a
+Key = 1 Val = a
+Key = 2 Val = a
+Key = 3 Val = a
+Key = 4 Val = a

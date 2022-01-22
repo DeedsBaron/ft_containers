@@ -6,7 +6,7 @@ CMakeFiles/containers.dir/main.cpp.o: \
  ../srcs/containers/Map.hpp \
  ../srcs/containers/Stack.hpp \
  ../srcs/containers/Vector.hpp \
- ../srcs/utils/BidirectionalIter.hpp \
+ ../srcs/utils/Bidirectionalterator.hpp \
  ../srcs/utils/Colors.hpp \
  ../srcs/utils/Node.hpp \
  ../srcs/utils/Print.hpp \

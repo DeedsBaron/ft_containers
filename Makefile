@@ -11,7 +11,7 @@ DIR_TESTS = ./srcs/tests
 DIR_OUT = ./srcs/out
 
 SOURCES	= main.cpp
-TESTS_SOURCES = myvector.cpp stdvector.cpp mystack.cpp stdstack.cpp
+TESTS_SOURCES = myvector.cpp stdvector.cpp mystack.cpp stdstack.cpp mymap.cpp stdmap.cpp
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 OBJS = $(addprefix $(DIR_O)/,${SOURCES:.cpp=.o})
@@ -37,6 +37,14 @@ $(NAME): $(OBJS)
 	@echo "\033[0;35m"
 	$(CC) $(FLAGS) $^ -o $@
 	chmod 777 $(NAME)
+
+map: dir $(TEST_OBJS)
+	$(CC) $(FLAGS) $(DIR_O)/mymap.o -o $(DIR_BIN)/mymap
+	$(CC) $(FLAGS) $(DIR_O)/stdmap.o -o $(DIR_BIN)/stdmap
+	./$(DIR_BIN)/mymap > $(DIR_OUT)/mymap.out
+	./$(DIR_BIN)/stdmap > $(DIR_OUT)/stdmap.out
+	open -a Terminal.app $(DIR_BIN)/stdmap
+	open -a Terminal.app $(DIR_BIN)/mymap
 
 vec: dir $(TEST_OBJS)
 	$(CC) $(FLAGS) $(DIR_O)/myvector.o -o $(DIR_BIN)/myvector

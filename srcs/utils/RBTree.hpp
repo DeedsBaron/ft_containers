@@ -37,86 +37,89 @@ private:
 
 public:
 	//constructors & destructors & operator=
-	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) : _size(0), _end(create_nil_node()), _root(_end), _node_alloc(n_alloc), _compare(compare) {}
+	RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) :
+			_size(0), _end(create_nil_node()), _root(_end), _node_alloc(n_alloc), _compare(compare) {}
 	RBTree(const RBTree& x) { *this = x; }
-	~RBTree() {
-		deallocateNode(_root);
-	}
-
 	node_pointer	cloneNode(node_pointer Node2Clone) {
 		node_pointer ClonedNode = NULL;
 		if (Node2Clone){
 			ClonedNode = _node_alloc.allocate(1);
 			_node_alloc.construct(ClonedNode, Node<value_type>(*Node2Clone));
 		}
-		ClonedNode->_left = NULL;
-		ClonedNode->_right = NULL;
-		ClonedNode->_parent = NULL;
 		return ClonedNode;
 	}
-
-	node_pointer 		copyInOrder(node_pointer Tree2Copy){
-		if (Tree2Copy == NULL)
+	node_pointer 	copyInOrder(node_pointer Tree2Copy){
+		if (Tree2Copy == NULL || (Tree2Copy->_left == NULL && Tree2Copy->_right == NULL && Tree2Copy->_value == NULL))
 			return NULL;
 		node_pointer new_node = cloneNode(Tree2Copy);
 		new_node->_left = copyInOrder(Tree2Copy->_left);
+		if (new_node->_left)
+			new_node->_left->_parent = new_node;
 		new_node->_right = copyInOrder(Tree2Copy->_right);
+		if (new_node->_right)
+			new_node->_right->_parent = new_node;
 		return new_node;
 	}
-
-	RBTree&		operator=(const RBTree& ins) {
+	RBTree&			operator=(const RBTree& ins) {
 		if (this == &ins)
 			return *this;
 		_node_alloc = ins._node_alloc;
 		_compare = ins._compare;
 		_size = ins._size;
-		_root = copyInOrder(ins._root);
+		if (ins.isEmpty())
+			_root = _end;
+		else
+			_root = copyInOrder(ins._root);
 		setEnd();
 		return *this;
 	}
-	//iterators
+	~RBTree() {
+		deallocateNode(_root);
+	}
 
+	void 							clear() { deallocateNode(_root); }
+	//iterators
 	iterator 						begin() {
 		return (isEmpty() ? iterator(_end) : iterator(find_min()));
 	}
-
 	const_iterator					begin() const {
 		return (isEmpty() ? const_iterator(_end) : const_iterator(find_min()));
 	}
-
 	iterator 						end() {
 		return (isEmpty() ? iterator(_end) : iterator(_end));
 	}
-
 	const_iterator 					end() const {
 		return (isEmpty() ? const_iterator(_end) : const_iterator(_end));
 	}
-
 	reverse_iterator				rbegin(){
 		return (reverse_iterator(end()));
 	}
 	const_reverse_iterator			rbegin() const{
 		return (const_reverse_iterator(end()));
 	}
-
 	reverse_iterator 				rend(){
 		return (reverse_iterator(begin()));
 	}
-
 	const_reverse_iterator 			rend() const{
 		return (const_reverse_iterator(begin()));
 	}
+
+	iterator						find(const key_type& k) {
+		node_pointer buf = search(k);
+		return buf != NULL ? iterator(buf) : end();
+	}
+	const_iterator					find(const key_type& k) const {
+		node_pointer buf = search(k);
+		return buf != NULL ? const_iterator(buf) : end();
+	}
+	size_type						max_size() const { return _node_alloc.max_size(); }
 	size_type						get_size() const { return _size; }
-
-
 	node_pointer					find_min(void) const {
 		return findMinimum(_root);
 	}
-
 	node_pointer					find_max(void){
 		return findMaximum(_root);
 	}
-
 	void							deallocateNodeValue(node_pointer node) {
 		node->_alloc.destroy(node->_value);
 		node->_alloc.deallocate(node->_value, 1);
@@ -127,7 +130,6 @@ public:
 			return ;
 		deallocateNode(node->_left);
 		deallocateNode(node->_right);
-//		deallocateNodeValue(node);
 		_node_alloc.destroy(node);
 		_node_alloc.deallocate(node, 1);
 	}
@@ -140,6 +142,10 @@ public:
 
 	void 							setEnd(void) {
 		node_pointer max = this->find_max();
+		if (isEmpty()) {
+			_end = max;
+			return ;
+		}
 		max->_right = this->_end;
 		this->_end->_parent = max;
 	}
@@ -224,17 +230,21 @@ public:
 
 	void 							erase(iterator position) {
 		deleteNode(position->first);
+		_end = find_max()->_right;
 	}
 
 	size_type						erase(const Key& key) {
 		size_type tmp_size = _size;
 		deleteNode(key);
+		_end = find_max()->_right;
 		return (tmp_size == _size ? 0 : 1);
 	}
 
 	void							erase(iterator first, iterator last) {
-		for ( ; first != last; first++)
+		for ( ; first != last; first++) {
 			deleteNode(first->first);
+		}
+		_end = find_max()->right;
 	};
 
 	void							deleteNode(const Key& k) {
@@ -511,12 +521,12 @@ public:
 		return NULL;
 	}
 
-	node_pointer					search(const Key& value) {
+	node_pointer					search(const Key& value) const {
 		return search(value, _root);
 	}
 
 	node_pointer					search(const Key& value, node_pointer node) const {
-		if(!node)
+		if(!node || !node->_value)
 			return NULL;
 		if (_compare(value, node->_value->first))
 			return search(value, node->_left);

@@ -21,8 +21,6 @@ srcs/containers/Stack.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
 srcs/utils/RandIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
-srcs/utils/BidirectionalIter.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
 srcs/containers/Map.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
 map
@@ -31,8 +29,8 @@ map
 /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
 ../utils/Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
-../utils/BidirectionalIter.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
+../utils/Bidirectionalterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Bidirectionalterator.hpp
 ../utils/RBTree.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
 ../utils/TreeIter.hpp
@@ -51,12 +49,10 @@ iostream
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
 ../utils/Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
-../utils/Colors.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
 ../utils/ReverseIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
 
-/Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Bidirectionalterator.hpp
 iterator
 -
 Utils.hpp
@@ -97,16 +93,16 @@ ReverseIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
-BidirectionalIter.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
+Bidirectionalterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Bidirectionalterator.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
 Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
-BidirectionalIter.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/BidirectionalIter.hpp
+Bidirectionalterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Bidirectionalterator.hpp
 Node.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
 

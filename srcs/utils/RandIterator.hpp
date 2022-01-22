@@ -1,21 +1,21 @@
 #pragma once
 
-#include "BidirectionalIter.hpp"
+#include "Bidirectionalterator.hpp"
 
 template < class T >
-class RandIterator : public BidirectionalIter<T>{
+class RandIterator : public Bidirectionalterator<T>{
 public:
-	typedef typename BidirectionalIter<T>::value_type 		value_type;
-	typedef typename BidirectionalIter<T>::difference_type	difference_type;
-	typedef typename BidirectionalIter<T>::pointer 			pointer;
-	typedef typename BidirectionalIter<T>::reference 		reference;
+	typedef typename Bidirectionalterator<T>::value_type 		value_type;
+	typedef typename Bidirectionalterator<T>::difference_type	difference_type;
+	typedef typename Bidirectionalterator<T>::pointer 			pointer;
+	typedef typename Bidirectionalterator<T>::reference 		reference;
 	typedef typename std::random_access_iterator_tag		iterator_category;
 	//constructors && destructor
 
 
-	RandIterator(void) : BidirectionalIter<T>() {}
-	RandIterator(pointer x) : BidirectionalIter<T>(x) {}
-	RandIterator(const RandIterator<typename ft::remove_const<T>::type>& iter) : BidirectionalIter<T>(iter) {}
+	RandIterator(void) : Bidirectionalterator<T>() {}
+	RandIterator(pointer x) : Bidirectionalterator<T>(x) {}
+	RandIterator(const RandIterator<typename ft::remove_const<T>::type>& iter) : Bidirectionalterator<T>(iter) {}
 	~RandIterator(void) {}
 	//overloaded functions
 	RandIterator 		operator+(difference_type n) const { return (this->getP() + n); }

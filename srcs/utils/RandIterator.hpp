@@ -9,7 +9,7 @@ public:
 	typedef typename Bidirectionalterator<T>::difference_type	difference_type;
 	typedef typename Bidirectionalterator<T>::pointer 			pointer;
 	typedef typename Bidirectionalterator<T>::reference 		reference;
-	typedef typename std::random_access_iterator_tag		iterator_category;
+	typedef typename std::random_access_iterator_tag			iterator_category;
 	//constructors && destructor
 
 

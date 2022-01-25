@@ -204,5 +204,46 @@ int main (void){
 		std::cout << CYAN << "mymap.count('5') \n" << RES;
 		std::cout << mymap.count('5') << std::endl;
 	}
+
+	std::cout << YELLOW << "::::::::::::::::BOUNDS::::::::::::::\n" << RES ;
+	{
+		ft::map<char,int> mymap;
+		ft::map<char,int>::iterator itlow,itup;
+		mymap['a']=20;
+		mymap['b']=40;
+		mymap['c']=60;
+		mymap['d']=80;
+		mymap['e']=100;
+		std::cout << CYAN << "mymap \n" << RES;
+		print_info(mymap);
+		std::cout << CYAN << "ft::map<char,int>::iterator itlow = mymap.lower_bound ('b') \n" << RES;
+		itlow=mymap.lower_bound ('b');
+		itup=mymap.upper_bound ('d');
+		std::cout << "itlow->first = " << itlow->first << std::endl;
+		std::cout << CYAN << "ft::map<char,int>::iterator itlow = mymap.upper_bound ('d') \n" << RES;
+		std::cout << "itup->first = " << itup->first << std::endl;
+		mymap.erase(itlow,itup);
+		std::cout << CYAN << "mymap.erase(itlow,itup); \n" << RES;
+		std::cout << CYAN << "mymap \n" << RES;
+		print_info(mymap);
+	}
+
+	std::cout << YELLOW << ":::::::::::::EQUAL_RANGE::::::::::::\n" << RES ;
+	{
+		ft::map<char,int> mymap;
+		mymap['a']=10;
+		mymap['b']=20;
+		mymap['c']=30;
+		std::cout << CYAN << "mymap \n" << RES;
+		print_info(mymap);
+		ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret;
+		ret = mymap.equal_range('b');
+		std::cout << CYAN << "ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret = mymap.equal_range('b'); \n" << RES;
+		std::cout << "ret.first = ";
+		std::cout << ret.first->first << " => " << ret.first->second << '\n';
+		std::cout << "ret.second = ";
+		std::cout << ret.second->first << " => " << ret.second->second << '\n';
+	}
+
 	return 0;
 }

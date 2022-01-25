@@ -3,7 +3,7 @@
 #include "Utils.hpp"
 
 template <class Iterator>
-class iterator_traits{
+class iterator_traits {
 public:
 	typedef typename Iterator::difference_type		difference_type;
 	typedef typename Iterator::value_type			value_type;

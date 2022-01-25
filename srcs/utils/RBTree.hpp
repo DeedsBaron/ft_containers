@@ -7,6 +7,7 @@
 #include "TreeIter.hpp"
 #include "ReverseIterator.hpp"
 
+
 #define RED_N 0
 #define BLACK_N 1
 
@@ -77,6 +78,59 @@ public:
 		deallocateNode(_root);
 	}
 
+	const_iterator					 upper_bound (const key_type& k) const {
+		const_iterator last = end();
+		const_iterator start = begin();
+		while (start != last){
+			if (_compare(k, start->first))
+				return start;
+			start++;
+		}
+		return start;
+	}
+
+	iterator 						upper_bound(const key_type& k) {
+		iterator last = end();
+		iterator start = begin();
+		while (start != last){
+			if (_compare(k, start->first))
+				return start;
+			start++;
+		}
+		return start;
+	}
+
+	const_iterator 					lower_bound(const key_type& k) const {
+		const_iterator last = end();
+		const_iterator start = begin();
+		while (start != last){
+			if (_compare(start->first, k))
+				start++;
+			else
+				break ;
+		}
+		return start;
+	}
+
+	iterator 						lower_bound(const key_type& k) {
+		iterator last = end();
+		iterator start = begin();
+		while (start != last){
+			if (_compare(start->first, k))
+				start++;
+			else
+				break ;
+		}
+		return start;
+	};
+
+	ft::pair<iterator, iterator> equal_range(const key_type &k) {
+		return (ft::make_pair(lower_bound(k), upper_bound(k)));
+	}
+
+	ft::pair<const_iterator,const_iterator> equal_range(const key_type& k) const {
+		return (ft::make_pair(lower_bound(k), upper_bound(k)));
+	}
 	void 							clear() { deallocateNode(_root); }
 	//iterators
 	iterator 						begin() {
@@ -230,21 +284,20 @@ public:
 
 	void 							erase(iterator position) {
 		deleteNode(position->first);
-		_end = find_max()->_right;
+		print();
 	}
 
 	size_type						erase(const Key& key) {
 		size_type tmp_size = _size;
 		deleteNode(key);
-		_end = find_max()->_right;
 		return (tmp_size == _size ? 0 : 1);
 	}
 
 	void							erase(iterator first, iterator last) {
-		for ( ; first != last; first++) {
-			deleteNode(first->first);
+		while (first != last) {
+			erase(first);
+			first++;
 		}
-		_end = find_max()->right;
 	};
 
 	void							deleteNode(const Key& k) {
@@ -269,7 +322,7 @@ public:
 			node->_value = val;
 			_node_alloc.deallocate(inOrderSuccessor, 1);
 		}
-		if (deletedNodeColor == BLACK_N) {
+		if (deletedNodeColor == BLACK_N && _root != _end) {
 			fixRedBlackPropertiesAfterDelete(movedUpNode);
 			// Remove the temporary NIL node
 			if (!movedUpNode->_value) {
@@ -277,7 +330,6 @@ public:
 				_node_alloc.deallocate(movedUpNode, 1);
 			}
 		}
-		_end = find_max();
 		_size -= 1;
 	}
 
@@ -543,6 +595,13 @@ public:
 		return (_root == NULL || (!_root->_left && !_root->_right && !_root->_value));
 	}
 
+	void 	print_info(void){
+		std::cout << CYAN << "::::::::::::::::::::::::::::::::::::::\n" << RES;
+		for (iterator it = this->begin(); it != this->end(); it++){
+			std::cout << "Key = " << it->first << " Val = " << it->second << std::endl;
+		}
+	}
+
 	void 							printTree(node_pointer root, Trunk *prev, bool isLeft)
 	{
 		if (isEmpty()) {
@@ -590,3 +649,24 @@ public:
 		std::swap(_root, x._root);
 	}
 };
+
+template<class Content, class Compare, class Alloc>
+bool operator<(const RBTree<Content, Compare, Alloc>& lhs,  const RBTree<Content, Compare, Alloc>& rhs){
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template<class Content, class Compare, class Alloc>
+bool operator>(const RBTree<Content, Compare, Alloc>& lhs,  const RBTree<Content, Compare, Alloc>& rhs){
+	return (lhs < rhs);
+}
+
+
+template<class Content, class Compare, class Alloc>
+bool operator==(const RBTree<Content, Compare, Alloc>& lhs, const RBTree<Content, Compare, Alloc>& rhs){
+	return (lhs.get_size() == rhs.get_size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template<class Content, class Compare, class Alloc>
+void swap(const  RBTree<Content, Compare, Alloc>& lhs, const  RBTree<Content, Compare, Alloc>& rhs){
+	lhs.swap(rhs);
+}

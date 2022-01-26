@@ -4,6 +4,7 @@
 CMakeFiles/containers.dir/main.cpp.o: \
  ../main.cpp \
  ../srcs/containers/Map.hpp \
+ ../srcs/containers/Set.hpp \
  ../srcs/containers/Stack.hpp \
  ../srcs/containers/Vector.hpp \
  ../srcs/utils/Bidirectionalterator.hpp \

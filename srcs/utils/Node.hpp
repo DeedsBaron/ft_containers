@@ -17,7 +17,7 @@ struct Node {
 	Node<T>*					_parent;
 
 	Node(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _value(NULL), _color(BLACK_N), _left(NULL), _right(NULL), _parent(NULL) {};
-	Node(const value_type& value, int _color, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _color(_color), _left(NULL), _right(NULL), _parent(NULL) { _value = _alloc.allocate(1); _alloc.construct(_value, value); };
+	Node(const value_type& value, int _color = BLACK_N, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _color(_color), _left(NULL), _right(NULL), _parent(NULL) { _value = _alloc.allocate(1); _alloc.construct(_value, value); };
 	Node (const Node& x) { *this = x;}
 	Node&	operator=(const Node& x) {
 		if (this == &x)

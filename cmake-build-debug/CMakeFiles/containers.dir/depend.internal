@@ -4,6 +4,7 @@
 CMakeFiles/containers.dir/main.cpp.o
  /Users/dbaron/Desktop/containers/main.cpp
  /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
+ /Users/dbaron/Desktop/containers/srcs/containers/Set.hpp
  /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
  /Users/dbaron/Desktop/containers/srcs/containers/Vector.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/Bidirectionalterator.hpp

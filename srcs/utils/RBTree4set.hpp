@@ -10,20 +10,19 @@
 #define RED_N 0
 #define BLACK_N 1
 
-template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
-class RBTree {
+template <class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
+class RBTree4set {
 public:
-	typedef T																		mapped_type;
-	typedef Key																		key_type;
-	typedef ft::pair<const Key, T>													value_type;
+	typedef T																		key_type;
+	typedef T																		value_type;
 	typedef Alloc																	allocator_type;
 	typedef typename allocator_type::template rebind<Node<value_type> >::other		node_alloc;
 	typedef typename node_alloc::pointer											node_pointer;
 	typedef	Compare																	compare_obj;
 	typedef TreeIter<value_type>													iterator;
 	typedef TreeIter<const value_type>												const_iterator;
-	typedef	ReverseIterator<iterator>												reverse_iterator;
-	typedef	ReverseIterator<const_iterator>											const_reverse_iterator;
+	typedef	 ReverseIterator<iterator>												reverse_iterator;
+	typedef	 ReverseIterator<const_iterator>										const_reverse_iterator;
 	typedef size_t 																	size_type;
 
 private:
@@ -35,10 +34,10 @@ private:
 
 public:
 	//constructors & destructors & operator=
-	explicit RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) :
+	explicit RBTree4set(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) :
 			_size(0), _end(create_nil_node()), _root(_end), _node_alloc(n_alloc), _compare(compare) {}
-	RBTree(const RBTree& x) { *this = x; }
-	RBTree&		operator=(const RBTree& ins) {
+	RBTree4set(const RBTree4set& x) { *this = x; }
+	RBTree4set&		operator=(const RBTree4set& ins) {
 		if (this == &ins)
 			return *this;
 		_node_alloc = ins._node_alloc;
@@ -51,7 +50,7 @@ public:
 		setEnd();
 		return *this;
 	}
-	~RBTree() {
+	~RBTree4set() {
 		deallocateNode(_root);
 	}
 	//iterators
@@ -96,7 +95,7 @@ public:
 			if (!current->_left && !current->_right && !current->_value)
 				break;
 			parent = current;
-			if (_compare(*(new_node->_value), *(current->_value)))
+			if (_compare(*new_node->_value, current->_value->first))
 				current = current->_left;
 			else if (_compare(current->_value->first, new_node->_value->first))
 				current = current->_right;
@@ -164,17 +163,17 @@ public:
 	void 							erase(iterator position) {
 		deleteNode(position->first);
 	}
-	size_type						erase(const Key& key) {
-		size_type tmp_size = _size;
-		deleteNode(key);
-		return (tmp_size == _size ? 0 : 1);
-	}
+//	size_type						erase(const Key& key) {
+//		size_type tmp_size = _size;
+//		deleteNode(key);
+//		return (tmp_size == _size ? 0 : 1);
+//	}
 	void							erase(iterator first, iterator last) {
 		while (first != last) {
 			this->erase((first++)->first);
 		}
 	};
-	void 							swap(RBTree& x) {
+	void 							swap(RBTree4set& x) {
 		std::swap(_size, x._size);
 		std::swap(_end, x._end);
 		std::swap(_root, x._root);
@@ -294,18 +293,18 @@ public:
 			node = node->_left;
 		return node;
 	}
-	node_pointer					search(const Key& value) const {
-		return search(value, _root);
-	}
-	node_pointer					search(const Key& value, node_pointer node) const {
-		if(!node || !node->_value)
-			return NULL;
-		if (_compare(value, node->_value->first))
-			return search(value, node->_left);
-		if (_compare(node->_value->first, value))
-			return search(value, node->_right);
-		return node;
-	}
+//	node_pointer					search(const Key& value) const {
+//		return search(value, _root);
+//	}
+//	node_pointer					search(const Key& value, node_pointer node) const {
+//		if(!node || !node->_value)
+//			return NULL;
+//		if (_compare(value, node->_value->first))
+//			return search(value, node->_left);
+//		if (_compare(node->_value->first, value))
+//			return search(value, node->_right);
+//		return node;
+//	}
 	void 							setEnd(void) {
 		node_pointer max = this->find_max();
 		if (isEmpty()) {
@@ -316,38 +315,38 @@ public:
 		this->_end->_parent = max;
 	}
 	//rbtroutine
-	void							deleteNode(const Key& k) {
-		node_pointer	node = search(k, _root);
-		node_pointer	movedUpNode = NULL;
-
-		if (node == NULL)
-			return ;
-		bool	deletedNodeColor;
-		if (node->_left == NULL || node->_right == NULL){
-			movedUpNode = deleteNodeZeroOrOneC(node);
-			deletedNodeColor = node->_color;
-			deallocateNodeValue(node);
-			_node_alloc.deallocate(node, 1);
-		} else {
-			node_pointer	inOrderSuccessor = findMinimum(node->_right);
-			value_type* 	val = inOrderSuccessor->_value;
-
-			movedUpNode = deleteNodeZeroOrOneC(inOrderSuccessor);
-			deletedNodeColor = inOrderSuccessor->_color;
-			deallocateNodeValue(node);
-			node->_value = val;
-			_node_alloc.deallocate(inOrderSuccessor, 1);
-		}
-		if (deletedNodeColor == BLACK_N && _root != _end) {
-			fixRedBlackPropertiesAfterDelete(movedUpNode);
-			// Remove the temporary NIL node
-			if (!movedUpNode->_value) {
-				replaceParentsChild(movedUpNode->_parent, movedUpNode, NULL);
-				_node_alloc.deallocate(movedUpNode, 1);
-			}
-		}
-		_size -= 1;
-	}
+//	void							deleteNode(const Key& k) {
+//		node_pointer	node = search(k, _root);
+//		node_pointer	movedUpNode = NULL;
+//
+//		if (node == NULL)
+//			return ;
+//		bool	deletedNodeColor;
+//		if (node->_left == NULL || node->_right == NULL){
+//			movedUpNode = deleteNodeZeroOrOneC(node);
+//			deletedNodeColor = node->_color;
+//			deallocateNodeValue(node);
+//			_node_alloc.deallocate(node, 1);
+//		} else {
+//			node_pointer	inOrderSuccessor = findMinimum(node->_right);
+//			value_type* 	val = inOrderSuccessor->_value;
+//
+//			movedUpNode = deleteNodeZeroOrOneC(inOrderSuccessor);
+//			deletedNodeColor = inOrderSuccessor->_color;
+//			deallocateNodeValue(node);
+//			node->_value = val;
+//			_node_alloc.deallocate(inOrderSuccessor, 1);
+//		}
+//		if (deletedNodeColor == BLACK_N && _root != _end) {
+//			fixRedBlackPropertiesAfterDelete(movedUpNode);
+//			// Remove the temporary NIL node
+//			if (!movedUpNode->_value) {
+//				replaceParentsChild(movedUpNode->_parent, movedUpNode, NULL);
+//				_node_alloc.deallocate(movedUpNode, 1);
+//			}
+//		}
+//		_size -= 1;
+//	}
 	void							leftRotate(node_pointer node)
 	{
 		node_pointer parent = node->_parent;

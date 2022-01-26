@@ -23,6 +23,8 @@ srcs/utils/RandIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
 srcs/containers/Map.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
+srcs/containers/Set.hpp
+/Users/dbaron/Desktop/containers/srcs/containers/Set.hpp
 map
 -
 
@@ -37,6 +39,16 @@ map
 /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
 ../utils/ReverseIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
+
+/Users/dbaron/Desktop/containers/srcs/containers/Set.hpp
+iostream
+-
+../utils/TreeIter.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
+../utils/ReverseIterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
+../utils/RBTree.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
 
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
 Vector.hpp
@@ -61,8 +73,6 @@ Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
 
 /Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
-iostream
--
 Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
 

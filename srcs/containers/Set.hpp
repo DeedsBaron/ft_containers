@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../utils/TreeIter.hpp"
 #include "../utils/ReverseIterator.hpp"
+#include "../utils/RBTree4set.hpp"
 
 
 namespace ft {
@@ -26,8 +27,9 @@ namespace ft {
 		typedef typename iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t 												size_type;
 	private:
-		RBTree<key_type, mapped_type, key_compare, allocator_type> _rbtree;
-		allocator_type _alloc;
-		key_compare _comp;
+		RBTree4set<key_type, key_compare, allocator_type> _rbtree;
+
+	public:
+		void insert (const value_type& val){_rbtree.insert(val);}
 	};
 }

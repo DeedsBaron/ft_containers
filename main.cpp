@@ -6,6 +6,7 @@
 #include "srcs/containers/Stack.hpp"
 #include "srcs/utils/RandIterator.hpp"
 #include "srcs/containers/Map.hpp"
+#include "srcs/containers/Set.hpp"
 #include <map>
 
 
@@ -24,10 +25,12 @@ int main()
 //
 	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES ;
 	{
-		ft::map<int, char> foo,bar;
-		for (int i = 0; i < 10; i++)
-			foo.insert(ft::make_pair(i, 'a'));
-		print_info(foo);
+		Node<int>* p1 = new Node<int>(1);
+		Node<ft::pair<int, char> >* p2 =  new Node<ft::pair<int, char> >(ft::make_pair(1, 'a'));
+		ft::pair<int, char>* p3 = new ft::pair<int, char> (1, 'a');
+		std::cout << *p1->_value << std::endl;
+		std::cout << **p3 << std::endl;
+		std::cout << **(p2->_value) << std::endl;
 	}
 	return 0;
 }

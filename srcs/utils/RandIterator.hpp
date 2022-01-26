@@ -11,8 +11,6 @@ public:
 	typedef typename Bidirectionalterator<T>::reference 		reference;
 	typedef typename std::random_access_iterator_tag			iterator_category;
 	//constructors && destructor
-
-
 	RandIterator(void) : Bidirectionalterator<T>() {}
 	RandIterator(pointer x) : Bidirectionalterator<T>(x) {}
 	RandIterator(const RandIterator<typename ft::remove_const<T>::type>& iter) : Bidirectionalterator<T>(iter) {}

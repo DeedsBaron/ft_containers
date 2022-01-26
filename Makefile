@@ -67,6 +67,8 @@ diff_stack:
 	diff $(DIR_OUT)/mystack.out $(DIR_OUT)/stdstack.out
 diff_vec:
 	diff $(DIR_OUT)/myvector.out $(DIR_OUT)/stdvector.out
+diff_map:
+	diff $(DIR_OUT)/mymap.out $(DIR_OUT)/stdmap.out
 
 clean:
 	@echo "\033[0;33m"

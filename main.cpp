@@ -14,30 +14,20 @@ const ft::map<char, int>& 	func(const ft::map<char, int>& ins) { return ins;}
 int main()
 {
 	{
-//		std::map<char,int> foo,bar;
-//		foo['a']=100;
-//		bar['a']=100;
-//		std::cout << CYAN << "foo \n" << RES;
-//		print_info(foo);
-//		std::cout << CYAN << "bar \n" << RES;
-//		print_info(bar);
-//		if (foo==bar) std::cout << "foo and bar are equal\n";
-//		if (foo!=bar) std::cout << "foo and bar are not equal\n";
-//		if (foo< bar) std::cout << "foo is less than bar\n";
-//		if (foo> bar) std::cout << "foo is greater than bar\n";
-//		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-//		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+		std::map<int, char> map;
+		map.insert(std::make_pair(1, 'a'));
+		std::map<int, char> map2;
+		map2.insert(std::make_pair(1, 'a'));
+		if (map < map2) std::cout << "less\n";
 
 	}
 //
-	std::cout << YELLOW << ":::::::::::::EQUAL_RANGE::::::::::::\n" << RES ;
+	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES ;
 	{
-		ft::map<int, char> mymap;
+		ft::map<int, char> foo,bar;
 		for (int i = 0; i < 10; i++)
-			mymap.insert(ft::make_pair(i, 'a'));
-		print_info(mymap);
-		mymap.erase(mymap.begin(), mymap.end());
-		print_info(mymap);
+			foo.insert(ft::make_pair(i, 'a'));
+		print_info(foo);
 	}
 	return 0;
 }

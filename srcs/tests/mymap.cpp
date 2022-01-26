@@ -106,22 +106,22 @@ int main (void){
 		std::cout << CYAN << "mymap \n" << RES;
 		ft::map<char,int> mymap;
 		std::cout << CYAN << "mymap.max_size() \n" << RES;
-		std::cout << CYAN << "mymap.insert(ft::make_pair('a', 5) \n" << RES;
+		std::cout << CYAN << "mymap.insert(ft::make_pair('a', 5)) \n" << RES;
 		ft::pair<ft::map<char, int>::iterator, bool> ret = mymap.insert(ft::make_pair('a', 5));
 		std::cout << "ret first = " << "<" << ret.first->first << ", " << ret.first->second << "> " << "\nret second = " << ret.second << std::endl;
 		std::cout << CYAN << "mymap \n" << RES;
 		print_info(mymap);
-		std::cout << CYAN << "mymap.insert(ft::make_pair('a', 5) \n" << RES;
+		std::cout << CYAN << "mymap.insert(ft::make_pair('a', 5)) \n" << RES;
 		ret = mymap.insert(ft::make_pair('a', 5));
 		std::cout << "ret first = " << "<" << ret.first->first << ", " << ret.first->second << "> " << "\nret second = " << ret.second << std::endl;
 		std::cout << CYAN << "mymap \n" << RES;
 		print_info(mymap);
-		std::cout << CYAN << "mymap.insert(mymap.begin(), ft::make_pair('z',  6) \n" << RES;
+		std::cout << CYAN << "mymap.insert(mymap.begin(), ft::make_pair('z',  6)) \n" << RES;
 		ft::map<char, int>::iterator ret_it = mymap.insert(mymap.begin(), ft::make_pair('z',  6));
 		std::cout << "ret first = " << ret_it->first << "\nret second = " << ret_it->second << std::endl;
 		std::cout << CYAN << "mymap \n" << RES;
 		print_info(mymap);
-		std::cout << CYAN << "mymap.insert(mymap.begin(), ft::make_pair('z',  6) \n" << RES;
+		std::cout << CYAN << "mymap.insert(mymap.begin(), ft::make_pair('z',  6)) \n" << RES;
 		ret_it = mymap.insert(mymap.begin(), ft::make_pair('z',  6));
 		std::cout << "ret first = " << ret_it->first << "\nret second = " << ret_it->second << std::endl;
 		std::cout << CYAN << "mymap \n" << RES;
@@ -243,6 +243,26 @@ int main (void){
 		std::cout << ret.first->first << " => " << ret.first->second << '\n';
 		std::cout << "ret.second = ";
 		std::cout << ret.second->first << " => " << ret.second->second << '\n';
+	}
+
+	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES ;
+	{
+		ft::map<char,int> foo,bar;
+		foo['a']=100;
+		foo['b']=200;
+		bar['a']=10;
+		bar['z']=1000;
+		std::cout << CYAN << "foo \n" << RES;
+		print_info(foo);
+		std::cout << CYAN << "bar \n" << RES;
+		print_info(bar);
+		std::cout<<std::endl;
+		if (foo==bar) std::cout << "foo and bar are equal\n";
+		if (foo!=bar) std::cout << "foo and bar are not equal\n";
+		if (foo< bar) std::cout << "foo is less than bar\n";
+		if (foo> bar) std::cout << "foo is greater than bar\n";
+		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	}
 
 	return 0;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include "Utils.hpp"
 #define BLACK_N 1
 

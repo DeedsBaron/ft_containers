@@ -58,4 +58,5 @@ public:
 		return (*this);
 	}
 	TreeIter				operator++(int) { TreeIter tmp(*this); ++(*this); return tmp; }
+	TreeIter				operator--(int) { TreeIter tmp(*this); --(*this); return tmp; }
 };

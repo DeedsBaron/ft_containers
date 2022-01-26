@@ -22,16 +22,16 @@ public:
 		_i_pointer = ins.getP();
 		return *this;
 	}
-	bool 					operator==(const Bidirectionalterator& ins) { return (_i_pointer == ins._i_pointer); }
-	bool 					operator!=(const Bidirectionalterator& ins) { return (_i_pointer != ins._i_pointer); }
-	reference 				operator*() { return *_i_pointer; }
-	const_reference 		operator*() const { return *_i_pointer; }
-	pointer 				operator->() { return _i_pointer; }
+	bool 						operator==(const Bidirectionalterator& ins) { return (_i_pointer == ins._i_pointer); }
+	bool 						operator!=(const Bidirectionalterator& ins) { return (_i_pointer != ins._i_pointer); }
+	reference 					operator*() { return *_i_pointer; }
+	const_reference 			operator*() const { return *_i_pointer; }
+	pointer 					operator->() { return _i_pointer; }
 	Bidirectionalterator&		operator++() { ++_i_pointer; return (*this); }
 	Bidirectionalterator		operator++(int) { Bidirectionalterator tmp(*this); ++(*this); return tmp; }
 	Bidirectionalterator&		operator--() { --_i_pointer; return (*this); }
 	Bidirectionalterator		operator--(int) { Bidirectionalterator tmp(*this); --(*this); return tmp; }
-	pointer 				getP() const { return (_i_pointer); }
+	pointer 					getP() const { return (_i_pointer); }
 protected:
 	pointer _i_pointer;
 };

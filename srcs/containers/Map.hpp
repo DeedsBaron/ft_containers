@@ -31,8 +31,7 @@ namespace ft {
 		allocator_type _alloc;
 		key_compare _comp;
 
-		class value_compare
-		{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+		class value_compare {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
 			friend class map;
 		protected:
 			Compare comp;
@@ -109,8 +108,6 @@ namespace ft {
 		ft::pair<const_iterator,const_iterator> equal_range(const key_type& k) const { return (_rbtree.equal_range(k)); }
 		//allocator
 		allocator_type 							get_allocator() const { return (_alloc); };
-
-		void print(void) { _rbtree.print(); };
 	};
 
 	template<class Key, class T, class Compare, class Alloc>
@@ -142,7 +139,6 @@ namespace ft {
 	bool operator>=(const map<Key, T, Compare, Alloc> & lhs, const map<Key, T, Compare, Alloc> & rhs){
 		return !(lhs < rhs);
 	}
-
 
 	template <class Key, class T, class Compare, class Alloc>
 	void swap(map<Key, T, Compare, Alloc>& x, map<Key, T, Compare, Alloc>& y) {

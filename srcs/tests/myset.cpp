@@ -1,36 +1,36 @@
-#include "../containers/Map.hpp"
+#include "../containers/Set.hpp"
 #include "../utils/Print.hpp"
 #include <iostream>
 
 int main (void) {
-	std::cout << GREEN << "-------------=MYMAP=-------------\n" << RES;
+	std::cout << GREEN << "-------------=MYSET=-------------\n" << RES;
 	//constructors
 	std::cout << YELLOW << "::::::::::::CONSTRUCTORS::::::::::::\n" << RES ;
 	{
 		std::cout << CYAN << "first \n" << RES;
-		ft::map<int, char> first;
-		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
+		ft::set<int> first;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
 		for (int i = 0; i < 5; i++)
-			first.insert(ft::make_pair(i, 'a'));
+			first.insert(i);
 		print_info(first);
 		std::cout << CYAN << "second(first.begin(),first.end())\n" << RES;
-		ft::map<int, char> second(first.begin(), first.end());
+		ft::set<int> second(first.begin(), first.end());
 		print_info(second);
 		std::cout << CYAN << "third(second)\n" << RES;
-		ft::map<int, char> third(first);
+		ft::set<int> third(first);
 		print_info(third);
 	}
 
 	std::cout << YELLOW << ":::::::::::::OPERATOR=::::::::::::::\n" << RES ;
 	{
 		std::cout << CYAN << "first \n" << RES;
-		ft::map<int, char> first;
-		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
+		ft::set<int> first;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
 		for (int i = 0; i < 5; i++)
-			first.insert(ft::make_pair(i, 'a'));
+			first.insert(i);
 		print_info(first);
 		std::cout << CYAN << "second \n" << RES;
-		ft::map<int, char> second;
+		ft::set<int> second;
 		std::cout << CYAN << "second = first \n" << RES;
 		second = first;
 		std::cout << CYAN << "second: \n" << RES;
@@ -39,25 +39,22 @@ int main (void) {
 	//iterators
 	std::cout << YELLOW << ":::::::::::FORWARD_ITERS::::::::::::\n" << RES ;
 	{
-		std::cout << CYAN << "mymap \n" << RES;
-		ft::map<char,int> mymap;
-		std::cout << CYAN << "mymap['b'] = 100; \n" << RES;
-		std::cout << CYAN << "mymap['a'] = 200; \n" << RES;
-		std::cout << CYAN << "mymap['c'] = 300; \n" << RES;
-		mymap['b'] = 100;
-		mymap['a'] = 200;
-		mymap['c'] = 300;
-		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-			std::cout << it->first << " => " << it->second << '\n';
-		std::cout << CYAN << "ft::map<char, int>::const_iterator c_start(mymap.begin()); \n" << RES;
-		ft::map<char, int>::const_iterator c_start(mymap.begin());
-		std::cout << c_start->first << " => " << c_start->second << '\n';
+		std::cout << CYAN << "myset \n" << RES;
+		ft::set<int> myset;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		for (ft::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+			std::cout << "Val = " << *it << std::endl;
+		std::cout << CYAN << "ft::set<int>::const_iterator c_start(myset.begin()); \n" << RES;
+		ft::set<int>::const_iterator c_start(myset.begin());
+		std::cout << "Val = " << *c_start << std::endl;
 	}
 
 	std::cout << YELLOW << ":::::::::::REVERSED_ITERS:::::::::::\n" << RES ;
 	{
 		std::cout << CYAN << "mymap \n" << RES;
-		ft::map<char,int> mymap;
+		ft::set<int> mymap;
 		std::cout << CYAN << "mymap['x'] = 100; \n" << RES;
 		std::cout << CYAN << "mymap['y'] = 200; \n" << RES;
 		std::cout << CYAN << "mymap['z'] = 300; \n" << RES;

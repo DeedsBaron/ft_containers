@@ -47,8 +47,8 @@ iostream
 /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
 ../utils/ReverseIterator.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
-../utils/RBTree.hpp
-/Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
+../utils/RBTree4set.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/RBTree4set.hpp
 
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
 Vector.hpp
@@ -83,12 +83,30 @@ Utils.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Stack.hpp
 ../containers/Map.hpp
 /Users/dbaron/Desktop/containers/srcs/containers/Map.hpp
+../containers/Set.hpp
+/Users/dbaron/Desktop/containers/srcs/containers/Set.hpp
 vector
 -
 map
 -
+set
+-
 
 /Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
+Colors.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
+iostream
+-
+Utils.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Utils.hpp
+Node.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
+TreeIter.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp
+ReverseIterator.hpp
+/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
+
+/Users/dbaron/Desktop/containers/srcs/utils/RBTree4set.hpp
 Colors.hpp
 /Users/dbaron/Desktop/containers/srcs/utils/Colors.hpp
 iostream

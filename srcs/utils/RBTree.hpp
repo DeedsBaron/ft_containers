@@ -10,16 +10,14 @@
 #define RED_N 0
 #define BLACK_N 1
 
-template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+template <class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
 class RBTree {
 public:
-	typedef T																		mapped_type;
-	typedef Key																		key_type;
-	typedef ft::pair<const Key, T>													value_type;
+	typedef T																		value_type;
 	typedef Alloc																	allocator_type;
 	typedef typename allocator_type::template rebind<Node<value_type> >::other		node_alloc;
 	typedef typename node_alloc::pointer											node_pointer;
-	typedef	Compare																	compare_obj;
+	typedef	Compare																	value_compare;
 	typedef TreeIter<value_type>													iterator;
 	typedef TreeIter<const value_type>												const_iterator;
 	typedef	ReverseIterator<iterator>												reverse_iterator;
@@ -30,13 +28,14 @@ private:
 	size_type							_size;
 	node_pointer						_end;
 	node_pointer						_root;
+	node_pointer						_start;
 	node_alloc							_node_alloc;
-	compare_obj							_compare;
+	value_compare						_compare;
 
 public:
 	//constructors & destructors & operator=
-	explicit RBTree(const compare_obj& compare = compare_obj(), const node_alloc& n_alloc = node_alloc()) :
-			_size(0), _end(create_nil_node()), _root(_end), _node_alloc(n_alloc), _compare(compare) {}
+	explicit RBTree(const value_compare& compare, const node_alloc& n_alloc = node_alloc()) :
+			_size(0), _end(create_nil_node()), _root(_end), _start(_end), _node_alloc(n_alloc), _compare(compare) {}
 	RBTree(const RBTree& x) { *this = x; }
 	RBTree&		operator=(const RBTree& ins) {
 		if (this == &ins)
@@ -44,11 +43,15 @@ public:
 		_node_alloc = ins._node_alloc;
 		_compare = ins._compare;
 		_size = ins._size;
-		if (ins.isEmpty())
+		if (ins.isEmpty()){
 			_root = _end;
-		else
+			_start = _end;
+		}
+		else {
 			_root = copyInOrder(ins._root);
-		setEnd();
+			setEnd();
+			_start = find_min();
+		}
 		return *this;
 	}
 	~RBTree() {
@@ -56,10 +59,10 @@ public:
 	}
 	//iterators
 	iterator 						begin() {
-		return (isEmpty() ? iterator(_end) : iterator(find_min()));
+		return (isEmpty() ? iterator(_end) : iterator(_start));
 	}
 	const_iterator					begin() const {
-		return (isEmpty() ? const_iterator(_end) : const_iterator(find_min()));
+		return (isEmpty() ? const_iterator(_end) : const_iterator(_start));
 	}
 	iterator 						end() {
 		return (isEmpty() ? iterator(_end) : iterator(_end));
@@ -98,7 +101,7 @@ public:
 			parent = current;
 			if (_compare(*(new_node->_value), *(current->_value)))
 				current = current->_left;
-			else if (_compare(current->_value->first, new_node->_value->first))
+			else if (_compare(*(current->_value), *(new_node->_value)))
 				current = current->_right;
 			else {
 				deallocateNode(new_node);
@@ -108,22 +111,24 @@ public:
 		new_node->_parent = parent;
 		if (parent == NULL)
 			_root = new_node;
-		else if (_compare(new_node->_value->first, parent->_value->first))
+		else if (_compare(*(new_node->_value), *(parent->_value)))
 			parent->_left = new_node;
 		else
 			parent->_right = new_node;
 		fix_insert(new_node);
 		_size+=1;
 		setEnd();
+		_start = find_min();
 		return ft::make_pair(iterator(new_node), true);
 	}
 	iterator						insert(iterator position, const value_type& val) {
 		iterator		ret = insert_hint(position, val);
 		setEnd();
+		_start = find_min();
 		return (ret);
 	}
 	iterator 						insert_hint(iterator position, const value_type& val) {
-		node_pointer	buf = search(val.first);
+		node_pointer	buf = search(val);
 		if (buf)
 			return (iterator(buf));
 		node_pointer	current = position.getP();
@@ -136,9 +141,9 @@ public:
 			if (!current->_left && !current->_right && !current->_value)
 				break;
 			parent = current;
-			if (_compare(new_node->_value->first, current->_value->first))
+			if (_compare(*(new_node->_value), *(current->_value)))
 				current = current->_left;
-			else if (_compare(current->_value->first, new_node->_value->first))
+			else if (_compare(*(current->_value), *(new_node->_value)))
 				current = current->_right;
 			else {
 				deallocateNode(new_node);
@@ -148,7 +153,7 @@ public:
 		new_node->_parent = parent;
 		if (parent == NULL)
 			_root = new_node;
-		else if (_compare(new_node->_value->first, parent->_value->first))
+		else if (_compare(*(new_node->_value), *(parent->_value)))
 			parent->_left = new_node;
 		else
 			parent->_right = new_node;
@@ -162,16 +167,18 @@ public:
 			insert(*first);
 	};
 	void 							erase(iterator position) {
-		deleteNode(position->first);
+		deleteNode(*position);
+		_start = find_min();
 	}
-	size_type						erase(const Key& key) {
+	size_type						erase(const value_type& key) {
 		size_type tmp_size = _size;
 		deleteNode(key);
+		_start = find_min();
 		return (tmp_size == _size ? 0 : 1);
 	}
 	void							erase(iterator first, iterator last) {
 		while (first != last) {
-			this->erase((first++)->first);
+			this->erase(*first++);
 		}
 	};
 	void 							swap(RBTree& x) {
@@ -181,60 +188,60 @@ public:
 	}
 	void 							clear() { deallocateNode(_root); }
 	//operations
-	iterator						find(const key_type& k) {
+	iterator						find(const value_type& k) {
 		node_pointer buf = search(k);
 		return buf != NULL ? iterator(buf) : end();
 	}
-	const_iterator					find(const key_type& k) const {
+	const_iterator					find(const value_type& k) const {
 		node_pointer buf = search(k);
 		return buf != NULL ? const_iterator(buf) : end();
 	}
-	const_iterator					lower_bound(const key_type& k) const {
+	const_iterator					lower_bound(const value_type& k) const {
 		const_iterator last = end();
 		const_iterator start = begin();
 		while (start != last){
-			if (_compare(start->first, k))
+			if (_compare(*start, k))
 				start++;
 			else
 				break ;
 		}
 		return start;
 	}
-	iterator 						lower_bound(const key_type& k) {
+	iterator 						lower_bound(const value_type& k) {
 		iterator last = end();
 		iterator start = begin();
 		while (start != last){
-			if (_compare(start->first, k))
+			if (_compare(*start, k))
 				start++;
 			else
 				break ;
 		}
 		return start;
 	};
-	const_iterator					upper_bound (const key_type& k) const {
+	const_iterator					upper_bound (const value_type& k) const {
 		const_iterator last = end();
 		const_iterator start = begin();
 		while (start != last){
-			if (_compare(k, start->first))
+			if (_compare(k, *start))
 				return start;
 			start++;
 		}
 		return start;
 	}
-	iterator						upper_bound(const key_type& k) {
+	iterator						upper_bound(const value_type& k) {
 		iterator last = end();
 		iterator start = begin();
 		while (start != last){
-			if (_compare(k, start->first))
+			if (_compare(k, *start))
 				return start;
 			start++;
 		}
 		return start;
 	}
-	ft::pair<iterator, iterator> 	equal_range(const key_type &k) {
+	ft::pair<iterator, iterator> 	equal_range(const value_type& k) {
 		return (ft::make_pair(lower_bound(k), upper_bound(k)));
 	}
-	ft::pair<const_iterator,const_iterator> equal_range(const key_type& k) const {
+	ft::pair<const_iterator,const_iterator> equal_range(const value_type& k) const {
 		return (ft::make_pair(lower_bound(k), upper_bound(k)));
 	}
 	//node memory manage
@@ -294,15 +301,15 @@ public:
 			node = node->_left;
 		return node;
 	}
-	node_pointer					search(const Key& value) const {
+	node_pointer					search(const value_type& value) const {
 		return search(value, _root);
 	}
-	node_pointer					search(const Key& value, node_pointer node) const {
+	node_pointer					search(const value_type& value, node_pointer node) const {
 		if(!node || !node->_value)
 			return NULL;
-		if (_compare(value, node->_value->first))
+		if (_compare(value, *(node->_value)))
 			return search(value, node->_left);
-		if (_compare(node->_value->first, value))
+		if (_compare(*(node->_value), value))
 			return search(value, node->_right);
 		return node;
 	}
@@ -316,7 +323,7 @@ public:
 		this->_end->_parent = max;
 	}
 	//rbtroutine
-	void							deleteNode(const Key& k) {
+	void							deleteNode(const value_type& k) {
 		node_pointer	node = search(k, _root);
 		node_pointer	movedUpNode = NULL;
 
@@ -558,10 +565,13 @@ public:
 		return NULL;
 	}
 	//print
-	void							print(){
-		printTree(_root, NULL, false);
+	void							printSetTree() const{
+		printTreeSet(_root, NULL, false);
 	};
-	void 							printTree(node_pointer root, Trunk *prev, bool isLeft)
+	void							printMaptree() const {
+		printTreeMap(_root, NULL, false);
+	};
+	void 							printTreeMap(node_pointer root, Trunk *prev, bool isLeft) const
 	{
 		if (isEmpty()) {
 			std::cout << GREEN << "Map is empty\n" << RES;
@@ -573,7 +583,7 @@ public:
 		}
 		std::string prev_str = "    ";
 		Trunk *trunk = new Trunk(prev, prev_str);
-		printTree(root->_right, trunk, true);
+		printTreeMap(root->_right, trunk, true);
 		if (!prev) {
 			trunk->str = "———";
 		}
@@ -598,7 +608,44 @@ public:
 			prev->str = prev_str;
 		}
 		trunk->str = "   |";
-		printTree(root->_left, trunk, false);
+		printTreeMap(root->_left, trunk, false);
+		delete trunk;
+	}
+	void 							printTreeSet(node_pointer root, Trunk *prev, bool isLeft) const
+	{
+		if (isEmpty()) {
+			std::cout << GREEN << "Map is empty\n" << RES;
+			std::cout << " nil_node\n";
+			return;
+		}
+		if (root == NULL ) {
+			return;
+		}
+		std::string prev_str = "    ";
+		Trunk *trunk = new Trunk(prev, prev_str);
+		printTreeSet(root->_right, trunk, true);
+		if (!prev) {
+			trunk->str = "———";
+		}
+		else if (isLeft){
+			trunk->str = ".———";
+			prev_str = "   |";
+		} else {
+			trunk->str = "`———";
+			prev->str = prev_str;
+		}
+		showTrunks(trunk);
+		if (root->_color == RED_N) {
+			std::cout << " " << RED << *(root->_value) << RES << std::endl;
+		}
+		else {
+			if (root->_value)
+				std::cout << " " << *(root->_value) << std::endl;
+			else
+				std::cout << " nil_node\n";
+		}
+		trunk->str = "   |";
+		printTreeSet(root->_left, trunk, false);
 		delete trunk;
 	}
 };

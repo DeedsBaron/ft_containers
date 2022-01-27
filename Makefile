@@ -11,7 +11,7 @@ DIR_TESTS = ./srcs/tests
 DIR_OUT = ./srcs/out
 
 SOURCES	= main.cpp
-TESTS_SOURCES = myvector.cpp stdvector.cpp mystack.cpp stdstack.cpp mymap.cpp stdmap.cpp
+TESTS_SOURCES = myvector.cpp stdvector.cpp mystack.cpp stdstack.cpp mymap.cpp stdmap.cpp myset.cpp stdset.cpp
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 OBJS = $(addprefix $(DIR_O)/,${SOURCES:.cpp=.o})
@@ -38,6 +38,14 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $^ -o $@
 	chmod 777 $(NAME)
 
+set: dir $(TEST_OBJS)
+	$(CC) $(FLAGS) $(DIR_O)/myset.o -o $(DIR_BIN)/myset
+	$(CC) $(FLAGS) $(DIR_O)/stdset.o -o $(DIR_BIN)/stdset
+	./$(DIR_BIN)/myset > $(DIR_OUT)/myset.out
+	./$(DIR_BIN)/stdset > $(DIR_OUT)/stdset.out
+	open -a Terminal.app $(DIR_BIN)/stdset
+	open -a Terminal.app $(DIR_BIN)/myset
+
 map: dir $(TEST_OBJS)
 	$(CC) $(FLAGS) $(DIR_O)/mymap.o -o $(DIR_BIN)/mymap
 	$(CC) $(FLAGS) $(DIR_O)/stdmap.o -o $(DIR_BIN)/stdmap
@@ -61,7 +69,6 @@ stack: dir $(TEST_OBJS)
 	./$(DIR_BIN)/stdstack > $(DIR_OUT)/stdstack.out
 	open -a Terminal.app $(DIR_BIN)/stdstack
 	open -a Terminal.app $(DIR_BIN)/mystack
-
 
 diff_stack:
 	diff $(DIR_OUT)/mystack.out $(DIR_OUT)/stdstack.out

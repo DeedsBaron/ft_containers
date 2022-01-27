@@ -2,8 +2,10 @@
 #include "../containers/Vector.hpp"
 #include "../containers/Stack.hpp"
 #include "../containers/Map.hpp"
+#include "../containers/Set.hpp"
 #include <vector>
 #include <map>
+#include <set>
 
 template < typename T>
 void 	print_cap(std::vector<T>& a1){
@@ -80,5 +82,19 @@ template <typename Key, typename T>
 void 	print_info(ft::map<Key, T>& map1){
 	for (typename ft::map<Key, T>::iterator it = map1.begin(); it != map1.end(); it++){
 		std::cout << "Key = " << it->first << " Val = " << it->second << std::endl;
+	}
+}
+
+template <typename Key>
+void 	print_info(std::set<Key>& map1){
+	for (typename std::set<Key>::iterator it = map1.begin(); it != map1.end(); it++){
+		std::cout << " Val = " << it->second << std::endl;
+	}
+}
+
+template <typename Key>
+void 	print_info(ft::set<Key>& map1){
+	for (typename ft::set<Key>::iterator it = map1.begin(); it != map1.end(); it++){
+		std::cout << "Val = " << *it << std::endl;
 	}
 }

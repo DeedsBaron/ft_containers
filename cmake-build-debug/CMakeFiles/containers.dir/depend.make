@@ -12,6 +12,7 @@ CMakeFiles/containers.dir/main.cpp.o: \
  ../srcs/utils/Node.hpp \
  ../srcs/utils/Print.hpp \
  ../srcs/utils/RBTree.hpp \
+ ../srcs/utils/RBTree4set.hpp \
  ../srcs/utils/RandIterator.hpp \
  ../srcs/utils/ReverseIterator.hpp \
  ../srcs/utils/TreeIter.hpp \

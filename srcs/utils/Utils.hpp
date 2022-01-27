@@ -85,7 +85,7 @@ namespace ft {
 			second = pr.second;
 			return (*this);
 		};
-		first_type&		operator*() { return this->first; }
+//		first_type&		operator*() { return this->first; }
 	};
 
 	template <class T1, class T2>

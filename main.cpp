@@ -12,25 +12,37 @@
 
 const ft::map<char, int>& 	func(const ft::map<char, int>& ins) { return ins;}
 
-int main()
-{
+int main() {
 	{
-		std::map<int, char> map;
-		map.insert(std::make_pair(1, 'a'));
-		std::map<int, char> map2;
-		map2.insert(std::make_pair(1, 'a'));
-		if (map < map2) std::cout << "less\n";
+		std::cout << CYAN << "first \n" << RES;
+		std::map<int, char> first;
+		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			first.insert(std::make_pair(i, 'a'));
+		print_info(first);
+		std::cout << CYAN << "second \n" << RES;
+		std::map<int, char> second;
+		std::cout << CYAN << "second = first \n" << RES;
+		second = first;
+		std::cout << CYAN << "second: \n" << RES;
+		print_info(second);
 
 	}
 //
-	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES ;
+	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES;
 	{
-		Node<int>* p1 = new Node<int>(1);
-		Node<ft::pair<int, char> >* p2 =  new Node<ft::pair<int, char> >(ft::make_pair(1, 'a'));
-		ft::pair<int, char>* p3 = new ft::pair<int, char> (1, 'a');
-		std::cout << *p1->_value << std::endl;
-		std::cout << **p3 << std::endl;
-		std::cout << **(p2->_value) << std::endl;
+		std::cout << CYAN << "first \n" << RES;
+		ft::set<int> first;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			first.insert(i);
+		print_info(first);
+		std::cout << CYAN << "second(first.begin(),first.end())\n" << RES;
+		ft::set<int> second(first.begin(), first.end());
+		print_info(second);
+		std::cout << CYAN << "third(second)\n" << RES;
+		ft::set<int> third(first);
+		print_info(third);
 	}
 	return 0;
 }

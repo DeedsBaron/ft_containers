@@ -12,6 +12,7 @@ CMakeFiles/containers.dir/main.cpp.o
  /Users/dbaron/Desktop/containers/srcs/utils/Node.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/Print.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp
+ /Users/dbaron/Desktop/containers/srcs/utils/RBTree4set.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/RandIterator.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp
  /Users/dbaron/Desktop/containers/srcs/utils/TreeIter.hpp

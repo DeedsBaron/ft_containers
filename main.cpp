@@ -14,35 +14,47 @@ const ft::map<char, int>& 	func(const ft::map<char, int>& ins) { return ins;}
 
 int main() {
 	{
-		std::cout << CYAN << "first \n" << RES;
-		std::map<int, char> first;
-		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
-		for (int i = 0; i < 5; i++)
-			first.insert(std::make_pair(i, 'a'));
-		print_info(first);
-		std::cout << CYAN << "second \n" << RES;
-		std::map<int, char> second;
-		std::cout << CYAN << "second = first \n" << RES;
-		second = first;
-		std::cout << CYAN << "second: \n" << RES;
-		print_info(second);
+
+		std::vector<int> myvec;
+		for (int i = 0; i < 10; i++)
+			myvec.push_back(i);
+		print_info(myvec);
+		std::vector<int>::iterator it = myvec.begin();
+		std::vector<int>::const_iterator c_it = myvec.end();
+		while (it < c_it){
+			std::cout << *it << " " << std::endl;
+			it++;
+		}
+
 
 	}
 //
 	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES;
 	{
-		std::cout << CYAN << "first \n" << RES;
-		ft::set<int> first;
-		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
-		for (int i = 0; i < 5; i++)
-			first.insert(i);
-		print_info(first);
-		std::cout << CYAN << "second(first.begin(),first.end())\n" << RES;
-		ft::set<int> second(first.begin(), first.end());
-		print_info(second);
-		std::cout << CYAN << "third(second)\n" << RES;
-		ft::set<int> third(first);
-		print_info(third);
+		ft::vector<int> myvec;
+		for (int i = 0; i < 10; i++)
+			myvec.push_back(i);
+		print_info(myvec);
+		ft::vector<int>::const_iterator c_it = myvec.begin();
+		ft::vector<int>::iterator it = myvec.end();
+		ft::vector<int> myvec1(myvec);
+		print_info(myvec1);
+		*it = 123;
+		while (c_it < it){
+			std::cout << *c_it << " " << std::endl;
+			c_it++;
+		}
+//		ft::map<int, char> mymap;
+//		for (int i =0; i < 10; i++){
+//			mymap.insert(ft::make_pair(i, 'a'));
+//		}
+//		print_info(mymap);
+//		ft::map<int, char>::iterator it = mymap.begin();
+//		ft::map<int, char>::const_iterator end = mymap.end();
+//		while (it != end) {
+//			std::cout << it->first << " ";
+//			it++;
+//		}
 	}
 	return 0;
 }

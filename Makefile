@@ -33,12 +33,14 @@ $(DIR_O)/%.o: $(DIR_TESTS)/%.cpp
 $(DIR_O)/%.o: $(DIR_S)/%.cpp
 	$(CC) $(FLAGS) -c $< -o $@ -g
 
-$(NAME): $(OBJS)
+$(NAME): $(TEST_OBJS) vec stack map set
+
+test: $(OBJS)
 	@echo "\033[0;35m"
 	$(CC) $(FLAGS) $^ -o $@
-	chmod 777 $(NAME)
+	chmod 777 $@
 
-set: dir $(TEST_OBJS)
+set: dir
 	$(CC) $(FLAGS) $(DIR_O)/myset.o -o $(DIR_BIN)/myset
 	$(CC) $(FLAGS) $(DIR_O)/stdset.o -o $(DIR_BIN)/stdset
 	./$(DIR_BIN)/myset > $(DIR_OUT)/myset.out
@@ -46,7 +48,7 @@ set: dir $(TEST_OBJS)
 	open -a Terminal.app $(DIR_BIN)/stdset
 	open -a Terminal.app $(DIR_BIN)/myset
 
-map: dir $(TEST_OBJS)
+map: dir
 	$(CC) $(FLAGS) $(DIR_O)/mymap.o -o $(DIR_BIN)/mymap
 	$(CC) $(FLAGS) $(DIR_O)/stdmap.o -o $(DIR_BIN)/stdmap
 	./$(DIR_BIN)/mymap > $(DIR_OUT)/mymap.out
@@ -54,7 +56,7 @@ map: dir $(TEST_OBJS)
 	open -a Terminal.app $(DIR_BIN)/stdmap
 	open -a Terminal.app $(DIR_BIN)/mymap
 
-vec: dir $(TEST_OBJS)
+vec: dir
 	$(CC) $(FLAGS) $(DIR_O)/myvector.o -o $(DIR_BIN)/myvector
 	$(CC) $(FLAGS) $(DIR_O)/stdvector.o -o $(DIR_BIN)/stdvector
 	./$(DIR_BIN)/myvector > $(DIR_OUT)/myvector.out
@@ -62,7 +64,7 @@ vec: dir $(TEST_OBJS)
 	open -a Terminal.app $(DIR_BIN)/stdvector
 	open -a Terminal.app $(DIR_BIN)/myvector
 
-stack: dir $(TEST_OBJS)
+stack: dir
 	$(CC) $(FLAGS) $(DIR_O)/mystack.o -o $(DIR_BIN)/mystack
 	$(CC) $(FLAGS) $(DIR_O)/stdstack.o -o $(DIR_BIN)/stdstack
 	./$(DIR_BIN)/mystack > $(DIR_OUT)/mystack.out
@@ -76,6 +78,8 @@ diff_vec:
 	diff $(DIR_OUT)/myvector.out $(DIR_OUT)/stdvector.out
 diff_map:
 	diff $(DIR_OUT)/mymap.out $(DIR_OUT)/stdmap.out
+diff_set:
+	diff $(DIR_OUT)/myset.out $(DIR_OUT)/stdset.out
 
 clean:
 	@echo "\033[0;33m"

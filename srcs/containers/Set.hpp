@@ -3,8 +3,7 @@
 #include <iostream>
 #include "../utils/TreeIter.hpp"
 #include "../utils/ReverseIterator.hpp"
-#include "../utils/RBTree4set.hpp"
-
+#include "../utils/RBTree.hpp"
 
 namespace ft {
 
@@ -48,7 +47,6 @@ namespace ft {
 			_rbtree = ins._rbtree;
 			return (*this);
 		}
-
 		//iterators
 		iterator 								begin() { return(_rbtree.begin()); }
 		const_iterator 							begin() const { return _rbtree.begin(); }

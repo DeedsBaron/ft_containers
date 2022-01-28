@@ -53,90 +53,84 @@ int main (void) {
 
 	std::cout << YELLOW << ":::::::::::REVERSED_ITERS:::::::::::\n" << RES ;
 	{
-		std::cout << CYAN << "mymap \n" << RES;
-		ft::set<int> mymap;
-		std::cout << CYAN << "mymap['x'] = 100; \n" << RES;
-		std::cout << CYAN << "mymap['y'] = 200; \n" << RES;
-		std::cout << CYAN << "mymap['z'] = 300; \n" << RES;
-		mymap['x'] = 100;
-		mymap['y'] = 200;
-		mymap['z'] = 300;
-		ft::map<char,int>::reverse_iterator rit;
-		for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
-			std::cout << rit->first << " => " << rit->second << '\n';
-		std::cout << CYAN << "ft::map<char, int>::const_reverse_iterator cr_rit(mymap.begin()); \n" << RES;
-		ft::map<char, int>::const_reverse_iterator c_rit(mymap.rbegin());
-		std::cout << c_rit->first << " => " << c_rit->second << '\n';
+		std::cout << CYAN << "myset \n" << RES;
+		ft::set<int> myset;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		ft::set<int>::reverse_iterator rit;
+		for (rit=myset.rbegin(); rit!=myset.rend(); ++rit)
+			std::cout << "Val = " << *rit << std::endl;;
+		std::cout << CYAN << "ft::set<int>::const_reverse_iterator cr_rit(myset.begin()); \n" << RES;
+		ft::set<int>::const_reverse_iterator c_rit(myset.rbegin());
+		std::cout << "Val = " << *c_rit << std::endl;;
 	}
 	//capacity
 	std::cout << YELLOW << "::::::::::::EMPTY & SIZE::::::::::::\n" << RES ;
 	{
-		std::cout << CYAN << "mymap \n" << RES;
-		ft::map<char,int> mymap;
-		std::cout << CYAN << "mymap.empty()\n" << RES;
-		std::cout << mymap.empty() << std::endl;
-		std::cout << CYAN << "mymap.size()\n" << RES;
-		std::cout << mymap.size() << std::endl;
-		std::cout << CYAN << "mymap['x'] = 100; \n" << RES;
-		std::cout << CYAN << "mymap['y'] = 200; \n" << RES;
-		std::cout << CYAN << "mymap['z'] = 300; \n" << RES;
-		mymap['x'] = 100;
-		mymap['y'] = 200;
-		mymap['z'] = 300;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		std::cout << CYAN << "mymap.empty()\n" << RES;
-		std::cout << mymap.empty() << std::endl;
-		std::cout << CYAN << "mymap.size()\n" << RES;
-		std::cout << mymap.size() << std::endl;
+		std::cout << CYAN << "myset \n" << RES;
+		ft::set<int> myset;
+		std::cout << CYAN << "myset.empty()\n" << RES;
+		std::cout << myset.empty() << std::endl;
+		std::cout << CYAN << "myset.size()\n" << RES;
+		std::cout << myset.size() << std::endl;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "myset.empty()\n" << RES;
+		std::cout << myset.empty() << std::endl;
+		std::cout << CYAN << "myset.size()\n" << RES;
+		std::cout << myset.size() << std::endl;
 	}
 	std::cout << YELLOW << ":::::::::::::MAX_SIZE:::::::::::::::\n" << RES ;
 	{
-		std::cout << CYAN << "mymap \n" << RES;
-		ft::map<char,int> mymap;
-		std::cout << CYAN << "mymap.max_size() \n" << RES;
-		std::cout << mymap.max_size() << std::endl;
+		std::cout << CYAN << "myset \n" << RES;
+		ft::set<int> myset;
+		std::cout << CYAN << "myset.max_size() \n" << RES;
+		std::cout << myset.max_size() << std::endl;
 	}
 	//modifiers
 	std::cout << YELLOW << "::::::::::::::INSERT::::::::::::::::\n" << RES ;
 	{
-		std::cout << CYAN << "mymap \n" << RES;
-		ft::map<char,int> mymap;
-		std::cout << CYAN << "mymap.max_size() \n" << RES;
-		std::cout << CYAN << "mymap.insert(ft::make_pair('a', 5)) \n" << RES;
-		ft::pair<ft::map<char, int>::iterator, bool> ret = mymap.insert(ft::make_pair('a', 5));
-		std::cout << "ret first = " << "<" << ret.first->first << ", " << ret.first->second << "> " << "\nret second = " << ret.second << std::endl;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		std::cout << CYAN << "mymap.insert(ft::make_pair('a', 5)) \n" << RES;
-		ret = mymap.insert(ft::make_pair('a', 5));
-		std::cout << "ret first = " << "<" << ret.first->first << ", " << ret.first->second << "> " << "\nret second = " << ret.second << std::endl;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		std::cout << CYAN << "mymap.insert(mymap.begin(), ft::make_pair('z',  6)) \n" << RES;
-		ft::map<char, int>::iterator ret_it = mymap.insert(mymap.begin(), ft::make_pair('z',  6));
-		std::cout << "ret first = " << ret_it->first << "\nret second = " << ret_it->second << std::endl;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		std::cout << CYAN << "mymap.insert(mymap.begin(), ft::make_pair('z',  6)) \n" << RES;
-		ret_it = mymap.insert(mymap.begin(), ft::make_pair('z',  6));
-		std::cout << "ret first = " << ret_it->first << "\nret second = " << ret_it->second << std::endl;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		std::cout << CYAN << "secondmap \n" << RES;
-		ft::map<char,int> secondmap;
-		std::cout << CYAN << "secondmap.insert(mymap.begin(), mymap.end()); \n" << RES;
-		secondmap.insert(mymap.begin(), mymap.end());
-		print_info(secondmap);
+		std::cout << CYAN << "myset \n" << RES;
+		ft::set<int> myset;
+		std::cout << CYAN << "myset.max_size() \n" << RES;
+		std::cout << CYAN << "myset.insert(1337) \n" << RES;
+		ft::pair<ft::set<int>::iterator, bool> ret = myset.insert(1337);
+		std::cout << "ret first = " << *ret.first << "\nret second = " << ret.second << std::endl;
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "myset.insert(1337) \n" << RES;
+		ret = myset.insert(1337);
+		std::cout << "ret first = " << *ret.first << "\nret second = " << ret.second << std::endl;
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "myset.insert(myset.begin(), 42) \n" << RES;
+		ft::set<int>::iterator ret_it = myset.insert(myset.begin(), 42);
+		std::cout << "ret = " << *ret_it << std::endl;
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "myset.insert(myset.begin(), 42) \n" << RES;
+		ret_it = myset.insert(myset.begin(), 42);
+		std::cout << "ret = " << *ret_it << std::endl;
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "secondset \n" << RES;
+		ft::set<int> secondset;
+		std::cout << CYAN << "secondset.insert(myset.begin(), myset.end()); \n" << RES;
+		secondset.insert(myset.begin(), myset.end());
+		print_info(secondset);
 	}
 
 	std::cout << YELLOW << "::::::::::::::ERASE:::::::::::::::::\n" << RES ;
 	{
 		std::cout << CYAN << "first \n" << RES;
-		ft::map<int, char> first;
-		std::cout << CYAN << "first.insert(<'a', 0> ... <'a', 4>) \n" << RES;
+		ft::set<int> first;
+		std::cout << CYAN << "first.insert(0 ... 4) \n" << RES;
 		for (int i = 0; i < 5; i++)
-			first.insert(ft::make_pair(i, 'a'));
+			first.insert(i);
 		print_info(first);
 		std::cout << CYAN << "first.erase(--first.end()) \n" << RES;
 		first.erase(--first.end());
@@ -152,12 +146,13 @@ int main (void) {
 
 	std::cout << YELLOW << ":::::::::::::::SWAP:::::::::::::::::\n" << RES ;
 	{
-		std::map<char,int> foo,bar;
-		foo['x']=100;
-		foo['y']=200;
-		bar['a']=11;
-		bar['b']=22;
-		bar['c']=33;
+		std::set<int> foo,bar;
+		std::cout << CYAN << "foo.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			foo.insert(i);
+		std::cout << CYAN << "foo.insert(555 ... 560) \n" << RES;
+		for (int i = 555; i < 560; i++)
+			bar.insert(i);
 		std::cout << CYAN << "foo \n" << RES;
 		print_info(foo);
 		std::cout << CYAN << "bar \n" << RES;
@@ -171,84 +166,80 @@ int main (void) {
 
 	std::cout << YELLOW << "::::::::::::::::FIND::::::::::::::::\n" << RES ;
 	{
-		ft::map<char,int> mymap;
-		std::cout << CYAN << "mymap \n" << RES;
-		mymap['a']=50;
-		mymap['b']=100;
-		mymap['c']=150;
-		mymap['d']=200;
-		print_info(mymap);
-		std::cout << CYAN << "ft::map<char,int>::iterator it = mymap.find('b') \n" << RES;
-		ft::map<char,int>::iterator it = mymap.find('b');
-		std::cout << CYAN << "mymap.erase (it) \n" << RES;
-		if (it != mymap.end())
-			mymap.erase (it);
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
+		ft::set<int> myset;
+		std::cout << CYAN << "foo.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "ft::set<int>::iterator it = myset.find(4) \n" << RES;
+		ft::set<int>::iterator it = myset.find(4);
+		std::cout << CYAN << "myset.erase (it) \n" << RES;
+		if (it != myset.end())
+			myset.erase (it);
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
 	}
 
 	std::cout << YELLOW << "::::::::::::::::COUNT:::::::::::::::\n" << RES ;
 	{
-		ft::map<char,int> mymap;
-		std::cout << CYAN << "mymap \n" << RES;
-		mymap['a']=50;
-		mymap['b']=100;
-		mymap['c']=150;
-		mymap['d']=200;
-		print_info(mymap);
-		std::cout << CYAN << "mymap.count('1') \n" << RES;
-		std::cout << mymap.count('1') << std::endl;
-		std::cout << CYAN << "mymap.count('5') \n" << RES;
-		std::cout << mymap.count('5') << std::endl;
+		ft::set<int> myset;
+		std::cout << CYAN << "foo.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "myset.count(1) \n" << RES;
+		std::cout << myset.count(1) << std::endl;
+		std::cout << CYAN << "myset.count(5) \n" << RES;
+		std::cout << myset.count(5) << std::endl;
 	}
 
 	std::cout << YELLOW << "::::::::::::::::BOUNDS::::::::::::::\n" << RES ;
 	{
-		ft::map<char,int> mymap;
-		ft::map<char,int>::iterator itlow,itup;
-		mymap['a']=20;
-		mymap['b']=40;
-		mymap['c']=60;
-		mymap['d']=80;
-		mymap['e']=100;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		std::cout << CYAN << "ft::map<char,int>::iterator itlow = mymap.lower_bound ('b') \n" << RES;
-		itlow=mymap.lower_bound ('b');
-		itup=mymap.upper_bound ('d');
-		std::cout << "itlow->first = " << itlow->first << std::endl;
-		std::cout << CYAN << "ft::map<char,int>::iterator itlow = mymap.upper_bound ('d') \n" << RES;
-		std::cout << "itup->first = " << itup->first << std::endl;
-		mymap.erase(itlow,itup);
-		std::cout << CYAN << "mymap.erase(itlow,itup); \n" << RES;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
+		ft::set<int> myset;
+		ft::set<int>::iterator itlow,itup;
+		std::cout << CYAN << "foo.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		std::cout << CYAN << "ft::set<int>::iterator itlow = myset.lower_bound (2) \n" << RES;
+		itlow=myset.lower_bound (2);
+		itup=myset.upper_bound (4);
+		std::cout << "itlow = " << *itlow << std::endl;
+		std::cout << CYAN << "ft::set<int>::iterator itlow = myset.upper_bound (4) \n" << RES;
+		std::cout << "itup = myset.end()" << std::endl;
+		myset.erase(itlow,itup);
+		std::cout << CYAN << "myset.erase(itlow,itup); \n" << RES;
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
 	}
 
 	std::cout << YELLOW << ":::::::::::::EQUAL_RANGE::::::::::::\n" << RES ;
 	{
-		ft::map<char,int> mymap;
-		mymap['a']=10;
-		mymap['b']=20;
-		mymap['c']=30;
-		std::cout << CYAN << "mymap \n" << RES;
-		print_info(mymap);
-		ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret;
-		ret = mymap.equal_range('b');
-		std::cout << CYAN << "ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret = mymap.equal_range('b'); \n" << RES;
+		ft::set<int> myset;
+		std::cout << CYAN << "foo.insert(0 ... 4) \n" << RES;
+		for (int i = 0; i < 5; i++)
+			myset.insert(i);
+		std::cout << CYAN << "myset \n" << RES;
+		print_info(myset);
+		ft::pair<ft::set<int>::iterator,ft::set<int>::iterator> ret;
+		ret = myset.equal_range(2);
+		std::cout << CYAN << "ft::pair<ft::set<int>::iterator,ft::set<int>::iterator> ret = myset.equal_range(2); \n" << RES;
 		std::cout << "ret.first = ";
-		std::cout << ret.first->first << " => " << ret.first->second << '\n';
+		std::cout << *ret.first << '\n';
 		std::cout << "ret.second = ";
-		std::cout << ret.second->first << " => " << ret.second->second << '\n';
+		std::cout << *ret.second << '\n';
 	}
 
 	std::cout << YELLOW << ":::::::::RELATIONAL_OPERATORS::::::::\n" << RES ;
 	{
-		ft::map<char,int> foo,bar;
-		foo['a']=100;
-		foo['b']=200;
-		bar['a']=10;
-		bar['z']=1000;
+		ft::set<char> foo,bar;
+		foo.insert('a');
+		foo.insert('b');
+		bar.insert('a');
+		bar.insert('z');
 		std::cout << CYAN << "foo \n" << RES;
 		print_info(foo);
 		std::cout << CYAN << "bar \n" << RES;

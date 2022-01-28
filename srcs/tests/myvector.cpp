@@ -1,18 +1,6 @@
 #include "../containers/Vector.hpp"
 #include "../utils/Colors.hpp"
 #include "../utils/Print.hpp"
-#include <iostream>
-#include <sys/time.h>
-
-//typedef unsigned long long timestamp_t;
-//
-//static timestamp_t
-//get_timestamp ()
-//{
-//	struct timeval now;
-//	gettimeofday (&now, NULL);
-//	return  now.tv_usec + (timestamp_t)now.tv_sec * 1000000;
-//}
 
 int main() {
 	std::cout << GREEN << "-------------=MYVECTOR=-------------\n" << RES;

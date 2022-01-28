@@ -92,9 +92,6 @@
 		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/RBTree.hpp">
 			<Option target="containers"/>
 		</Unit>
-		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/RBTree4set.hpp">
-			<Option target="containers"/>
-		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/containers/srcs/utils/ReverseIterator.hpp">
 			<Option target="containers"/>
 		</Unit>

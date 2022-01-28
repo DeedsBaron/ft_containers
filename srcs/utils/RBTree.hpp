@@ -22,7 +22,7 @@ public:
 	typedef TreeIter<const value_type>												const_iterator;
 	typedef	ReverseIterator<iterator>												reverse_iterator;
 	typedef	ReverseIterator<const_iterator>											const_reverse_iterator;
-	typedef size_t 																	size_type;
+	typedef size_t 																size_type;
 
 private:
 	size_type							_size;
@@ -31,6 +31,7 @@ private:
 	node_pointer						_start;
 	node_alloc							_node_alloc;
 	value_compare						_compare;
+
 
 public:
 	//constructors & destructors & operator=

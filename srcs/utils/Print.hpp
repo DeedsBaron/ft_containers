@@ -88,7 +88,7 @@ void 	print_info(ft::map<Key, T>& map1){
 template <typename Key>
 void 	print_info(std::set<Key>& map1){
 	for (typename std::set<Key>::iterator it = map1.begin(); it != map1.end(); it++){
-		std::cout << " Val = " << it->second << std::endl;
+		std::cout << "Val = " << *it << std::endl;
 	}
 }
 

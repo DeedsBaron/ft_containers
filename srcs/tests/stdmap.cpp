@@ -2,6 +2,7 @@
 #include "../utils/Print.hpp"
 #include <iostream>
 #include <map>
+#include <iomanip>
 
 int main (void){
 	std::cout << GREEN << "-------------=STDMAP=-------------\n" << RES;
@@ -264,6 +265,29 @@ int main (void){
 		if (foo> bar) std::cout << "foo is greater than bar\n";
 		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
 		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+	}
+	std::cout << YELLOW << "::::::::::::::TIME_TESTS::::::::::::\n" << RES;
+	{
+		time_t 	start,end;
+		std::map<int, char> mymap;
+		time(&start);
+		for(int i = 0; i <1000000; i++)
+			mymap.insert(std::make_pair(i, 'a'));
+		time(&end);
+		std::cout << "Time taken by insert is : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		time(&start);
+		std::map<int, char> copy(mymap);
+		time(&end);
+		std::cout << "Time taken by deep copy is : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		std::map<int, char> mymap2;
+		time(&start);
+		mymap2.insert(copy.begin(), copy.end());
+		time(&end);
+		std::cout << "Time taken by insert : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		time(&start);
+		mymap.erase(mymap.begin(), mymap.end());
+		time(&end);
+		std::cout << "Time taken by erase : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
 	}
 	return 0;
 }

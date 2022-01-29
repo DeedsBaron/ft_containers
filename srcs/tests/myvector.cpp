@@ -1,6 +1,8 @@
 #include "../containers/Vector.hpp"
 #include "../utils/Colors.hpp"
 #include "../utils/Print.hpp"
+#include <time.h>
+#include <iomanip>
 
 int main() {
 	std::cout << GREEN << "-------------=MYVECTOR=-------------\n" << RES;
@@ -393,6 +395,28 @@ int main() {
 		std::cout << CYAN << "bar\n" << RES;
 		print_info(bar);
 	}
-
+	std::cout << YELLOW << "::::::::::::::TIME_TESTS::::::::::::\n" << RES;
+	{
+		time_t 	start,end;
+		ft::vector<int> myvec;
+		time(&start);
+		for(int i = 0; i <100000000; i++)
+			myvec.push_back(i);
+		time(&end);
+		std::cout << "Time taken by push_back is : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		time(&start);
+		ft::vector<int> copy(myvec);
+		time(&end);
+		std::cout << "Time taken by deep copy is : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		ft::vector<int> myvec2;
+		time(&start);
+		myvec2.insert(myvec2.begin(), copy.begin(), copy.end());
+		time(&end);
+		std::cout << "Time taken by insert : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		time(&start);
+		myvec.erase(myvec.begin(), myvec.end());
+		time(&end);
+		std::cout << "Time taken by erase : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+	}
 	return (0);
 }

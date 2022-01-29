@@ -2,6 +2,7 @@
 #include "../utils/Colors.hpp"
 #include "../utils/Print.hpp"
 #include <vector>
+#include <iomanip>
 
 int main() {
 	std::cout << GREEN << "-------------=STDVECTOR=-------------\n" << RES;
@@ -391,6 +392,28 @@ int main() {
 		std::cout << CYAN << "bar\n" << RES;
 		print_info(bar);
 	}
-
+	std::cout << YELLOW << "::::::::::::::TIME_TESTS::::::::::::\n" << RES;
+	{
+		time_t 	start,end;
+		std::vector<int> myvec;
+		time(&start);
+		for(int i = 0; i <100000000; i++)
+			myvec.push_back(i);
+		time(&end);
+		std::cout << "Time taken by push_back is : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		time(&start);
+		std::vector<int> copy(myvec);
+		time(&end);
+		std::cout << "Time taken by deep copy is : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		std::vector<int> myvec2;
+		time(&start);
+		myvec2.insert(myvec2.begin(), copy.begin(), copy.end());
+		time(&end);
+		std::cout << "Time taken by insert : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+		time(&start);
+		myvec.erase(myvec.begin(), myvec.end());
+		time(&end);
+		std::cout << "Time taken by erase : " << std::fixed << float(end - start) << std::setprecision(5) << " sec \n";
+	}
 	return (0);
 }

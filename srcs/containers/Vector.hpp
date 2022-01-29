@@ -21,6 +21,7 @@ namespace ft{
 		typedef	ReverseIterator<iterator>					reverse_iterator;
 		typedef	ReverseIterator<const_iterator>				const_reverse_iterator;
 		typedef size_t 										size_type;
+		typedef std::ptrdiff_t								difference_type;
 		//constructors
 		vector(const vector& ins) : _alloc(ins._alloc), _start(NULL), _end(NULL), _end_capacity(NULL) { *this = ins; }
 		explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL) {};
@@ -231,13 +232,19 @@ namespace ft{
 			_end--;
 			return (position);
 		};
-		iterator					erase(iterator first, iterator last){
-			for (iterator buf(first); buf != end(); buf++){
-				_alloc.construct(&(*buf), *(buf + (last - first)));
+		iterator erase (iterator first, iterator last){
+			iterator save(first);
+			iterator buf(first);
+			for (; buf != last; buf++){
+				_alloc.destroy(&*(buf));
 			}
-			_end -= last - first;
-			return (first);
-		};
+			for (; buf != end(); buf++){
+				_alloc.construct(&*(first), *buf);
+				first++;
+			}
+			_end -= last - save;
+			return (save);
+		}
 		void						swap(vector& x){
 			if (this == &x)
 				return ;

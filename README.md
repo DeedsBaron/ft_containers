@@ -138,4 +138,4 @@ The project implements the following containers:
   
 ## Other
 **Author:**  
-:copyright:*[Deeds Baron](https://github.com/DeedsBaron)*  
+:vampire:*[Deeds Baron](https://github.com/DeedsBaron)*  

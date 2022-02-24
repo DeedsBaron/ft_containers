@@ -1,6 +1,6 @@
 # :heavy_check_mark: ft_containers
 ## Description
-This project is aim to understand how work is containers from library STL and this project is a part methodology learning students from 42 schools (21 schools in Moscow).  
+This project is aim to understand how containers work from library STL and this project is a part methodology learning students from 42 school (21 school in Moscow).  
 The project implements the following containers:  
 
 **[Vector](https://www.cplusplus.com/reference/vector/vector/?kw=vector)**  
